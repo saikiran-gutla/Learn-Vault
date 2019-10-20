@@ -4,6 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% load staticfiles %}
     <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
     <style>
         .textbox
         {
@@ -36,21 +41,29 @@
             }
 
 
+
     </style>
 </head>
 <body>
-<div class="topnav">
-  <a class="active" href="{% url 'student logout' %}">Logout</a>
-  <a href="{% url 'student results' %}">My Results</a>
-  <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+<img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
+<div class="navbar">
+    <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'student results' %}">My Results</a>
+    <a class="active" href="{% url 'home page' %}">Logout</a>
 </div>
 <center>
-<div>
-    <iframe width="520" height="415" src="https://www.youtube.com/embed/xUFo94TXwqc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe width="520" height="415" src="https://www.youtube.com/embed/NDLBWf7UfIM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe width="520" height="415" src="https://www.youtube.com/embed/-a80_xFsh9w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe width="520" height="415" src="https://www.youtube.com/embed/8kUyDtk0Yjw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-    </center>
+    <div>
+        <h3>Related Videos</h3>
+        <a href="https://www.youtube.com/embed/xUFo94TXwqc">Transitive and Intransitive Verbs</a><br>
+        <a href="https://www.youtube.com/embed/NDLBWf7UfIM">Infinite and Non Infinite Verbs</a><br>
+        <a href="https://www.youtube.com/embed/-a80_xFsh9w">Phrases v/s Clauses</a><br>
+        <a href="https://www.youtube.com/embed/8kUyDtk0Yjw">Regular and Irregular Verbs</a><br>
+
+        <!--    <iframe width="520" height="415" src="https://www.youtube.com/embed/xUFo94TXwqc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+        <!--    <iframe width="520" height="415" src="https://www.youtube.com/embed/NDLBWf7UfIM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+        <!--    <iframe width="520" height="415" src="https://www.youtube.com/embed/-a80_xFsh9w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+        <!--    <iframe width="520" height="415" src="https://www.youtube.com/embed/8kUyDtk0Yjw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+    </div>
+</center>
 </body>
 </html>

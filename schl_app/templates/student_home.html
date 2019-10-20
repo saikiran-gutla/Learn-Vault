@@ -42,14 +42,16 @@
     </style>
 </head>
 <body>
+<img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
+    {% csrf_token %}
     <a href="#">Welcome {{ user }}</a>
     <a href="{% url 'student results' %}">My Results</a>
     <a href="{% url 'student videos' %}">Videos</a>
     <a href="#">Edit Profile</a>
     <a class="active" href="{% url 'home page' %}">Logout</a>
     <a href="#" style="float:right;">About Us</a>
-    <a href="#" style="float:right;">Contact Us</a>
+    <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
 	<h1>Student Portal</h1>
 <!-- <div>

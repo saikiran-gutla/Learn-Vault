@@ -12,7 +12,7 @@ from schl_app.views import student_register, \
     StudentResultsView ,\
     TeacherResultsView,\
     Student_Profile,\
-    Teacher_Profile
+    Teacher_Profile,contact_us
 
 urlpatterns = [
     url(r'^stu_register/', student_register, name='student register'),
@@ -32,4 +32,5 @@ urlpatterns = [
     url(r'^all_results/', TeacherResultsView, name='Teacher Results View'),
     url(r'^student_profile/', Student_Profile, name='Student Profile View'),
     url(r'^teacher_profile/', Teacher_Profile, name='Teacher Profile View'),
+    url(r'^contact_us/', contact_us, name='Contact Us'),
 ]

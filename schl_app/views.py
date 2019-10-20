@@ -301,3 +301,5 @@ def Teacher_Profile(request):
 # 		for dt in data:
 # 			details.teacher_name = dt['Name']
 # 			details.save()
+def contact_us(request):
+	return render(request, 'contact_us.html', {})

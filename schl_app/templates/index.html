@@ -59,7 +59,7 @@
         </div>
     </div>
     <a href="#" style="float:right;">About Us</a>
-    <a href="#" style="float:right;">Contact Us</a>
+    <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
 <br><br>
 <center>
@@ -100,11 +100,6 @@
             <h2>Teacher Login</h2>
             <form action='{%url "teacher home"%}' method='POST' autocomplete="off">
                 {% csrf_token %}
-                {% if messages %}
-                {% for message in messages %}
-                <p style="color: #fc0000;">{% if message.tags %} {% endif %} {{ message }}</p>
-                {% endfor %}
-                {% endif %}
                 <div class="inputBox">
                     <input name="username" required="" class="textbox" placeholder="Enter Your Username / Email">
                 </div>
