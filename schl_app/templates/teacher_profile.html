@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
-
- <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load staticfiles %}
-    <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
-    <style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% load staticfiles %}
+<link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
+<style>
         .textbox
         {
         width: 30%;
-        padding: 12px 20px;
-        margin: 8px 0;
+        padding: 9px 20px;
+        margin: 2px 0;
         box-sizing: border-box;
         border: none;
         border-bottom: 2px solid #345eeb;
@@ -38,55 +38,87 @@
               border-radius:10px;
               margin-bottom:5px;
             }
-
-
-    </style>
+</style>
 </head>
-<body >
+<body>
 <div class="navbar">
-  <a href="{% url 'teacher login' %}">Logout</a>
+    <a href="{% url 'home page' %}">Logout</a>
 </div>
+<form action='{%url "Teacher Profile View" %}' autocomplete="off">
+    {% csrf_token %}
+    <div class="container-fluid">
+        {% for profile in profiles %}
+        <div class="row">
+            <label>Profile Name </label>
+            <div class="col-sm-10">
+                <input type="text" name="Name" required class="textbox"
+                       value="{{ profile.Name }}" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <label>Teacher ID : </label>
+            <div class="col-sm-10">
+                <input type="text" name="Id" required class="textbox"
+                       value="{{ profile.Id }}" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <label>Father Name : </label>
+            <div class="col-sm-10">
+                <input type="text" name="Father_Name" required class="textbox"
+                       value="{{ profile.Father_Name }}" disabled>
+            </div>
+        </div>
 
-<form action='{%url "Teacher Profile View" %}'  autocomplete="off" >
-    <ol>
-    {% for profile in profiles %}
-        <div class="inputBox">
-            <input type="text" name="Name" required class="textbox" value="{{ profile.Name }}">
+        <div class="row">
+            <div class="col-xs-1"><label>Email Id : </label></div>
+            <div class="col-sm-10">
+                <input type="email" name="Email_Id" required class="textbox"
+                       value="{{ profile.Email_Id }}" disabled>
+            </div>
         </div>
-        <div class="inputBox">
-            <input type="text" name="Id" required class="textbox" value="{{ profile.Id }}">
+        <div class="row">
+            <div class="col-xs-1">
+                <label>Mobile Number: </label></div>
+            <div class="col-sm-10">
+                <input type="number" name="Mobile_No" required class="textbox"
+                       value="{{ profile.Mobile_No }}" disabled>
+            </div>
         </div>
-        <div class="inputBox">
-            <input type="text" name="Father_Name" required class="textbox" value="{{ profile.Father_Name }}">
-        </div>
-        <div class="inputBox">
-            <input type="email" name="Email_Id" required class="textbox" value="{{ profile.Email_Id }}">
-        </div>
-        <div class="inputBox">
-            <input type="number" name="Mobile_No" required class="textbox" value="{{ profile.Mobile_No }}">
-        </div>
-        <div class="inputBox">
-            <input type="radio" name="Gender" required class="textbox" value="{{ profile.Gender }}">
-        </div>
+        <!--        <div class="inputBox">-->
+        <!--            <label>Teacher ID : </label><input type="radio" name="Gender" required class="textbox" value="{{ profile.Gender }}">-->
+        <!--        </div>-->
 
-    {% endfor %}DOB,Email_Id,Mobile_No,Gender
-    </ol>
-
+        {% endfor %}
+    </div>
     <div class="row">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary form-control" id="btn1">Update</button>
+            <input type="button" class="btn btn-primary form-control" id="edit" value="Edit"
+                   onclick="enableTextBoxes()">
+        </div>
+
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary form-control" id="btn1" disabled>Update</button>
         </div>
     </div>
 </form>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
 </script>
- <script>
+<script>
+<!--          ENABLE THE TEXT BOXES ON EDIT BUTTON CLICK          -->
+function enableTextBoxes() {
+    var cells = document.getElementsByClassName("textbox");
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].disabled = false;
+    }
+    document.getElementById("btn1").disabled = false;
+}
 
         $('#examForm').on('submit', function(event) {
             // using jQuery
@@ -139,8 +171,25 @@ integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCm
             }
             alert("your data successfully submit");
     })
-    </script>
-    </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
 </html>
 
 <!-- "https://api.mlab.com/api/1/databases/newapi/collections/userdetails?apiKey=PY2E5LtsakOOqKaXb8VciACX4-iK-O-n" -->

@@ -46,7 +46,7 @@
     {% csrf_token %}
     <a href="#">Welcome {{ user }}</a>
     <a href="{% url 'Teacher Results View' %}">Student Results</a>
-    <a href="#">Edit Profile</a>
+    <a href="{% url 'Teacher Profile View' %}">Edit Profile</a>
     <a class="active" href="{% url 'home page' %}">Logout</a>
 </div>
 	<h1>Teacher Portal</h1>
