@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
+    <style>
+        .textbox
+        {
+        width: 30%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid #345eeb;
+        }
+        #headings
+        {
+        font-family: Arial, Helvetica, sans-serif;
+        color:#345eeb;
+        font-size: 30px;
+        }
+        .submit {
+              background-color: #345eeb;
+              border: none;
+              color: white;
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
+              border-radius:10px;
+              margin-bottom:5px;
+            }
+
+
+    </style>
+</head>
+<body >
+<div class="navbar">
+  <a href="{% url 'student login' %}">Logout</a>
+</div>
+
+<form action='{%url "test questions"%}' autocomplete="off" id="examForm">
+    <ol>
+    {% for questions in question %}
+
+        <li>{{ questions.Question }}</li>
+        {% for items in questions.Choices %}
+                <input type="radio" name="{{ questions.Question }}" value="{{ items }}">{{ items }}<br>
+        {% endfor %}
+    {% endfor %}
+    </ol>
+
+    <div class="row">
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary form-control" id="btn1">SUBMIT</button>
+        </div>
+    </div>
+</form>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
+ <script>
+
+        $('#examForm').on('submit', function(event) {
+            // using jQuery
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                var csrftoken = getCookie('csrftoken');
+                function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                }
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                });
+
+            event.preventDefault()
+            var rawData = event.target.getElementsByTagName('input');
+            var data = []
+            for(i = 0; i < rawData.length; i++) {
+                if(rawData[i].type == "radio" && rawData[i].checked) {
+                    data.push({
+                        question : rawData[i].name,
+                        ans : rawData[i].value
+                    });
+                }
+            }
+            console.log('array data', data)
+            if(data.length > 0) {
+                $.ajax({
+                    method: "POST",
+                    url: "{% url 'Test Data' %}",
+                    data: JSON.stringify(data),
+                });
+            }
+            alert("your data successfully submit");
+    })
+    </script>
+    </body>
+</html>
+
+<!-- "https://api.mlab.com/api/1/databases/newapi/collections/userdetails?apiKey=PY2E5LtsakOOqKaXb8VciACX4-iK-O-n" -->

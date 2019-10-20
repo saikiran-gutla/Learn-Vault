@@ -1,0 +1,502 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <style>
+        .textbox
+        {
+        width: 30%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid #345eeb;
+        }
+        #headings
+        {
+        font-family: Arial, Helvetica, sans-serif;
+        color:#345eeb;
+        font-size: 30px;
+        }
+        .submit {
+              background-color: #345eeb;
+              border: none;
+              color: white;
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
+              border-radius:10px;
+              margin-bottom:5px;
+            }
+
+
+
+
+    </style>
+</head>
+<body>
+<img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
+<div class="navbar">
+    <a href="#home">Home</a>
+    <!--    LOGIN DESIGN -->
+    <div class="dropdown">
+        <button class="dropbtn" onclick="login()">Login
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content" id="myDropdown">
+            <a id="login_form">Login</a>
+            <a id="register_form">Register</a>
+        </div>
+    </div>
+    <a href="#" style="float:right;">About Us</a>
+    <a href="#" style="float:right;">Contact Us</a>
+</div>
+<br><br>
+<center>
+    {% if messages %}
+    {% for message in messages %}
+    <p style="color: #fc0000;" id="display_message">{% if message.tags %} {% endif %} {{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    <!--    LOGIN RELATED FORMS   -->
+    <div id="login">
+        <!--    LOGIN CHECK BOXES    -->
+        <div id="login_form_check_boxes" style="display:none;">
+            <input type="radio" id="student_login" name="login" checked>Student
+            <input type="radio" id="teacher_login" name="login"> Teacher
+        </div>
+        <!--    STUDENT LOGIN FORM  -->
+        <div id="student_login_form" style="display:none;">
+
+            <h2>Student Login</h2>
+            <form action='{%url "student home"%}' method='POST' autocomplete="off">
+                {% csrf_token %}
+                <div class="inputBox">
+                    <input name="username" required="" class="textbox" placeholder="Enter Your Username / Email">
+                </div>
+                <div class="inputBox">
+                    <input type="Password" name="password" required="" class="textbox" placeholder="Enter Password">
+                </div>
+                <div id="error">
+
+                </div>
+                <input type="submit" class="submit">
+<!--            <a id="register_student1">Create New Account</a>-->
+                <input type="button" class="submit" value="Create Account" id="register_student1" onclick="student_register_click()">
+            </form>
+        </div>
+        <!--    TEACHER LOGIN FORM      -->
+        <div id="teacher_login_form" style="display:none;">
+            <h2>Teacher Login</h2>
+            <form action='{%url "teacher home"%}' method='POST' autocomplete="off">
+                {% csrf_token %}
+                {% if messages %}
+                {% for message in messages %}
+                <p style="color: #fc0000;">{% if message.tags %} {% endif %} {{ message }}</p>
+                {% endfor %}
+                {% endif %}
+                <div class="inputBox">
+                    <input name="username" required="" class="textbox" placeholder="Enter Your Username / Email">
+                </div>
+                <div class="inputBox">
+                    <input type="Password" name="password" required="" class="textbox" placeholder="Enter Password">
+                </div>
+                <input type="submit" class="submit">
+<!--                <a href="{%url 'teacher register' %}">Create New Account</a>-->
+                 <input type="button" class="submit" value="Create Account" id="register_teacher" onclick="teacher_register_click()">
+            </form>
+        </div>
+    </div>
+    <!--    REGISTRATION RELATED FORMS    -->
+    <div id="registration">
+        <!--    REGISTRATION FORM CHECK BOXES    -->
+        <div id="registration_forms_check_boxes" style="display:none;">
+            <input type="radio" id="student_register" name="register" checked>Student
+            <input type="radio" id="teacher_register" name="register"> Teacher
+        </div>
+        <!--    STUDENT REGISTRATION FORM   -->
+        <div id="student_register_form" style="display:none;">
+            <h2>Student Registration</h2>
+            <form autocomplete="off" action="{%url 'student register'%}" method="POST"
+                  onsubmit="return validate_password(this)">
+                {% csrf_token %}
+                <div class="inputBox">
+                    <input name="first_name" required placeholder="Enter First Name" class="textbox">
+                </div>
+                <div class="inputBox">
+                    <input name="last_name" required placeholder="Enter Last Name" class="textbox">
+                </div>
+                <div class="inputBox">
+                    <input type="email" name="user_email" required placeholder="Enter Email" class="textbox">
+                </div>
+                <div class="inputBox">
+                    <input name="stu_father_name" required class="textbox" placeholder="Enter Student Father Name">
+                </div>
+                <div class="inputBox">
+                    <input type="number" name="mobile_no" required class="textbox"
+                           placeholder="Enter Student Mobile Number">
+                </div>
+                <div class="inputBox">
+                    <input type="number" name="standard" required class="textbox" placeholder="Enter Standard/Class">
+                </div>
+                <div class="radiobutton">
+                    <label>Gender</label>
+                    <input type="radio" name="gender" value="male" checked required> Male
+                    <input type="radio" name="gender" value="female" required> Female<br>
+                </div>
+                <div class="inputBox">
+                    <input type="Password" name="password" id="password" required class="textbox"
+                           placeholder="Enter Password" pattern=".{3,}" title="Please Enter Minimum 6 Characters">
+                    <p id="msg"></p>
+                </div>
+                <div class="inputBox">
+                    <input type="Password" name="password2" id="password2" required class="textbox"
+                           placeholder="Enter Confirm Password" pattern=".{3,}"
+                           title="Please Enter Minimum 6 Characters">
+                </div>
+                <div class="cal">
+                    <input type="date" id="date" data-date="" data-date-format="YYYY MMMM DD" name='student_DOB'
+                           value="" class="textbox" required>
+                </div>
+                <input type="submit" class="submit" value="Register">
+            </form>
+        </div>
+        <!--    TEACHER REGISTRATION FORM      -->
+        <div id="teacher_register_form" style="display:none;">
+            <h2>Teacher Registration</h2>
+            <form autocomplete="off" action="{%url 'teacher register'%}" method="POST"
+                  onsubmit="return validate_teacher_password(this)">
+                {% csrf_token %}
+                <div class="inputBox">
+                    <input name="first_name" required class="textbox" placeholder="Enter First Name">
+                </div>
+                <div class="inputBox">
+                    <input name="last_name" required class="textbox" placeholder="Enter Last Name">
+                </div>
+                <div class="inputBox">
+                    <input name="teacher_father_name" required class="textbox" placeholder="Enter Father Number">
+                </div>
+                <div class="inputBox">
+                    <input name="user_email" required class="textbox" placeholder="Enter User Email">
+                </div>
+                <div class="inputBox">
+                    <input name="mobile_no" required class="textbox" placeholder="Enter Mobile Number">
+                </div>
+                <div class="radiobutton">
+                    <label>Gender</label>
+                    <input type="radio" name="gender" value="male" checked required> Male
+                    <input type="radio" name="gender" value="female" required> Female<br>
+                </div>
+                <div class="inputBox">
+                    <input type="Password" name="password" id="teacher_password" required placeholder="Enter Password"
+                           class="textbox pattern="
+                           pattern=".{3,}" title="Please Enter Minimum 6 Characters">
+                    <p name="msg" id="msg1"></p>
+                </div>
+                <div class="inputBox">
+                    <input type="Password" name="password2" id="teacher_confirm_password" required
+                           placeholder="Enter Confirm Password" class="textbox"
+                           pattern=".{3,}" title="Please Enter Minimum 6 Characters">
+                </div>
+                <div class="cal">
+                    <input type="date" id="date1" data-date="" data-date-format="YYYY MMMM DD" name='teacher_DOB'
+                           value="" class="textbox" required>
+                </div>
+                <input type="submit" class="submit" value="Register">
+            </form>
+        </div>
+    </div>
+</center>
+</body>
+<script type="text/javascript">
+<!--WHEN USER CLICKS ON REGISTER BUTTON IN STUDENT LOGIN PAGE-->
+function student_register_click() {
+  var registration = document.getElementById("registration");
+  if (registration.style.display === "none") {
+    registration.style.display = "block";
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('registration_forms_check_boxes').style.display = 'block';
+  } else {
+    registration.style.display = "none";
+  }
+}
+<!--      WHEN THE USER CLICKS ON REGISTER BUTTON IN TEACHER LOGIN PAGE   -->
+function teacher_register_click() {
+  var registration = document.getElementById("registration");
+  if (registration.style.display === "none") {
+    registration.style.display = "block";
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('registration_forms_check_boxes').style.display = 'block';
+    document.getElementById('teacher_register_form').style.display = 'block';
+    teacher_radiobtn = document.getElementById("teacher_register");
+    student_radiobtn = document.getElementById("student_register");
+    teacher_radiobtn.checked = true;
+    student_radiobtn.checked = false;
+  } else {
+    registration.style.display = "none";
+  }
+}
+
+
+$(document).ready(function() {
+   <!--   LOGIN FORMS RADIO BUTTONS ARE DISPLAYED WHEN "LOGIN" BUTTON IS CLICKED   -->
+    $("#login_form").click(function() {
+        $("#login_form_check_boxes").show();
+        $("#student_login_form").show();
+        $("#teacher_login_form").hide();
+        $("#registration").hide();
+  });
+
+
+<!--    STUDENT LOGIN DISPLAYS WHEN RADIO BUTTON IS CLICKED   -->
+$(document).ready(function() {
+    $("#student_login").click(function() {
+        $("#teacher_login_form").hide();
+        $("#student_login_form").show();
+        $("#registration").hide();
+  });
+});
+
+
+<!--    TEACHER LOGIN DISPLAYS WHEN RADIO BUTTON IS CLICKED   -->
+$(document).ready(function() {
+    $("#teacher_login").click(function() {
+        $("#teacher_login_form").show();
+        $("#student_login_form").hide();
+        $("#registration").hide();
+  });
+});
+
+<!--    STUDENT REGISTRATION DISPLAYS WHEN RADIO BUTTON IS CLICKED   -->
+$(document).ready(function() {
+    $("#register_form").click(function() {
+        $("#registration").show();
+        $("#registration_forms_check_boxes").show();
+        $("#teacher_register_form").hide();
+        $("#student_register_form").show();
+        $("#login_form_check_boxes").hide();
+        $("#student_login_form").hide();
+        $("#teacher_login_form").hide();
+  });
+});
+
+<!--   STUDENT REGISTRATION DISPLAYS WHEN RADIO BUTTON IS CLICKED    -->
+$(document).ready(function() {
+    $("#student_register").click(function() {
+        $("#teacher_register_form").hide();
+        $("#student_register_form").show();
+  });
+});
+
+<!--   TEACHER REGISTRATION DISPLAYS WHEN RADIO BUTTON IS CLICKED    -->
+$(document).ready(function() {
+    $("#teacher_register").click(function() {
+        $("#teacher_register_form").show();
+        $("#student_register_form").hide();
+  });
+});
+
+
+<!--   WHEN CREATE ACCOUNT IS CLICKED THE STUDENT REGISTRATION FORM APPEARS    -->
+$(document).ready(function() {
+  $("#register_student1").click(function() {
+<!--        $("#teacher_register_form").hide();-->
+        $("#student_register_form").show();
+  });
+});
+});
+
+<!--    CODE TO HIDE THE ELEMENT AFTER CERTAIN SECONDS      -->
+setTimeout(function() {
+    $('#display_message').fadeOut('fast');
+}, 7500);
+// <-- time in milliseconds
+
+
+<!--                    ####   STUDENT REGISTRATION PASSWORD VALIDATION CHECK ####           -->
+
+// Function to check Whether both passwords
+             function validate_password(form) {
+             var pass1 = document.getElementById('password');
+             var pass2 = document.getElementById('password2');
+                password1 = form.password.value;
+                password2 = form.password2.value;
+                var warningColor = "#fccf03";
+                if (password1 != password2) {
+                    document.getElementById("msg").innerHTML = "Passwords Mismatch!"
+                    pass1.style.backgroundColor = warningColor;
+                    pass2.style.backgroundColor = warningColor;
+                    return false;
+                }
+                else
+                {
+                    alert("Registering Student")
+                    return true;
+                }
+            }
+            <!--     VALIDATE PASSWORD LENGTH IS MORE THAN 6 CHARACTERS        -->
+             $('#password').on('blur', function ()
+                 {
+                 var message = document.getElementById('msg');
+                 var pass1 = document.getElementById('password');
+                 var goodColor = "#66cc66";
+                 var badColor = "#ff6666";
+                    if (this.value.length < 6)
+                    {
+                        message.innerHTML = "Password length must be 6 characters length!"
+                        pass1.style.backgroundColor = badColor;
+                        $(this).focus();
+                    }
+                    else
+                    {
+                        message.innerHTML = "Password length OK!"
+                        pass1.style.backgroundColor = goodColor;
+                        return false;
+                    }
+                });
+              <!--     VALIDATE CONFIRM PASSWORD LENGTH IS MORE THAN 6 CHARACTERS        -->
+             $('#password2').on('blur', function ()
+                 {
+                 var message = document.getElementById('msg');
+                 var pass2 = document.getElementById('password2');
+                 var goodColor = "#66cc66";
+                 var badColor = "#ff6666";
+                 message.innerHTML = ""
+                    if (this.value.length < 6)
+                    {
+                        message.innerHTML = "Confirm Password length must be 6 characters length!"
+                        pass2.style.backgroundColor = badColor;
+                        $(this).focus();
+                    }
+                    else
+                    {
+                        message.innerHTML = ""
+                        pass2.style.backgroundColor = goodColor;
+                        return false;
+                    }
+                });
+                <!--                -->
+                 $('#date').on('blur', function ()
+                 {
+                 var message = document.getElementById('msg');
+                 message.innerHTML = ""
+                 return false;
+                });
+
+                function login() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+<!--            TEACHER REGISTRATION PASSWORD VALIDATION CHECK         -->
+
+            // Function to check Whether both passwords
+             function validate_teacher_password(form) {
+             var pass1 = document.getElementById('teacher_password');
+             var pass2 = document.getElementById('teacher_confirm_password');
+                password1 = form.teacher_password.value;
+                password2 = form.teacher_confirm_password.value;
+                var warningColor = "#fccf03";
+                if (password1 != password2) {
+                    document.getElementById("msg1").innerHTML = "Passwords Mismatch!"
+                    pass1.style.backgroundColor = warningColor;
+                    pass2.style.backgroundColor = warningColor;
+                    return false;
+                }
+                else
+                {
+                    alert("Registering Teacher")
+                    return true;
+                }
+            }
+            <!--     VALIDATE PASSWORD LENGTH IS MORE THAN 6 CHARACTERS        -->
+             $('#teacher_password').on('blur', function ()
+                 {
+                 var message = document.getElementById('msg1');
+                 var pass1 = document.getElementById('teacher_password');
+                 var goodColor = "#66cc66";
+                 var badColor = "#ff6666";
+                    if (this.value.length < 6)
+                    {
+                        message.innerHTML = "Password length must be 6 characters length!"
+                        pass1.style.backgroundColor = badColor;
+                        $(this).focus();
+                    }
+                    else
+                    {
+                        message.innerHTML = "Password length OK!"
+                        pass1.style.backgroundColor = goodColor;
+                        return false;
+                    }
+                });
+              <!--     VALIDATE CONFIRM PASSWORD LENGTH IS MORE THAN 6 CHARACTERS        -->
+             $('#teacher_confirm_password').on('blur', function ()
+                 {
+                 var message = document.getElementById('msg1');
+                 var pass2 = document.getElementById('teacher_confirm_password');
+                 var goodColor = "#66cc66";
+                 var badColor = "#ff6666";
+                    if (this.value.length < 6)
+                    {
+                        message.innerHTML = "Confirm Password length must be 6 characters length!"
+                        pass2.style.backgroundColor = badColor;
+                        $(this).focus();
+                    }
+                    else
+                    {
+                        message.innerHTML = ""
+                        pass2.style.backgroundColor = goodColor;
+                        return false;
+                    }
+                });
+                <!--                -->
+                 $('#date1').on('blur', function ()
+                 {
+                 var message = document.getElementById('msg1');
+                 message.innerHTML = ""
+                 return false;
+                });
+
+function login() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+
+
+
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content*/
+function login() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+
+</script>
+</html>
+
+<!--create a function and call using button to display the forms-->

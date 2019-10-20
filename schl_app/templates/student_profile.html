@@ -1,0 +1,17 @@
+<form action='{%url "test questions"%}' autocomplete="off" id="examForm">
+    <ol>
+    {% for questions in question %}
+
+        <li>{{ questions.Question }}</li>
+        {% for items in questions.Choices %}
+                <input type="radio" name="{{ questions.Question }}" value="{{ items }}">{{ items }}<br>
+        {% endfor %}
+    {% endfor %}
+    </ol>
+
+    <div class="row">
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary form-control" id="btn1">SUBMIT</button>
+        </div>
+    </div>
+</form>

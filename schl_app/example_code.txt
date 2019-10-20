@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WorkSnaps</title>
+
+</head>
+<body>
+
+<div class="container2 borderXwidth">
+  		<a href="{%url 'home'%}" alt="Home">Home</a>
+</div>
+<div class="pagination borderXwidth">
+  		<a href="{%url 'login'%}" alt="Employer Login">Employer Login</a>
+  	</div>
+	<div class="box">
+		<h2>Daily Report</h2>
+{% if messages %}
+<ul class="messages">
+<div class="alert alert-success alert-dismissible" style="width: 70%">
+<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+<strong>Success!</strong>
+    {% for message in messages %}
+    	{{ message }}
+    {% endfor %}
+</div>
+</ul>
+{% endif %}
+<form action="/store_daily_report/" method="post" autocomplete="off">
+	{% csrf_token %}
+	<!-- <div class="inputBox">
+		<select name="username">
+			<option value="">Select Your Name</option>
+        	{%for user in all_users %}
+			<option value='{{user}}'>{{user}}</option>
+			{%endfor%}
+		</select>
+	</div> -->
+	<div class="cal">
+		<input type="text1" data-large-mode="true"  data-format="Y-n-j" name="cretaed_at"/>
+	</div>
+	<div class="inputBox">		
+    	<textarea id="todolist" class="todolist" name="q1" required></textarea>
+		<label>What was done this day?</label>
+	</div>
+	<div class="inputBox">		
+    	<textarea id="todolist1" class="todolist1" name="q2" required></textarea>
+		<label>What is your plan for next day?</label>
+	</div>
+	<div class="inputBox">
+		<input type="text" name="q3" required placeholder="No">
+		<label> What are your blockers?</label>
+	</div>
+	<div class="inputBox">
+		<input type="text" name="q4" required placeholder="Yes">
+		<label>Do you have enough tasks to keep you busy for the next three days?</label>
+	</div>
+	<div class="inputBox">
+		<input type="text" name="q5" required placeholder="Yes">
+		<label>If you get stuck are you still able to work on something else?</label>
+	</div>
+	
+	<input type="submit">
+</form>
+</div>
+<script>
+            $('input[type="text1"]').dateDropper();    
+        </script>
+<script type="text/javascript">
+	$(".todolist").focus(function() {
+    if(document.getElementById('todolist').value === ''){
+        document.getElementById('todolist').value +='• ';
+	}
+});
+$(".todolist").keyup(function(event){
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        document.getElementById('todolist').value +='• ';
+	}
+	var txtval = document.getElementById('todolist').value;
+	if(txtval.substr(txtval.length - 1) == '\n'){
+		document.getElementById('todolist').value = txtval.substring(0,txtval.length - 1);
+	}
+});
+</script>
+<script type="text/javascript">
+	$(".todolist1").focus(function() {
+    if(document.getElementById('todolist1').value === ''){
+        document.getElementById('todolist1').value +='• ';
+	}
+});
+$(".todolist1").keyup(function(event){
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        document.getElementById('todolist1').value +='• ';
+	}
+	var txtval = document.getElementById('todolist1').value;
+	if(txtval.substr(txtval.length - 1) == '\n'){
+		document.getElementById('todolist1').value = txtval.substring(0,txtval.length - 1);
+	}
+});
+</script>
+</body>
+</html>
+
+
+raw_data = [
+    {
+        'question': 'What is a correct syntax to output "Hello World" in Python?',
+        'answer' : 'print("Hello World")',
+    },
+    {
+        'question': 'Which of the following is false statement in python?',
+        'answer' : 'None of the above',
+    },
+    {
+        'question': 'What command is used to shuffle a list ‘L’?',
+        'answer' : 'random.Shuffle(L)',
+    },
+    {
+        'question': 'Which event among them is fired when the right mouse button is released?',
+        'answer' : '<ButtonReleased-3>',
+    }
+]

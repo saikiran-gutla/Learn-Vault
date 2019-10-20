@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
+    <style>
+        .textbox
+        {
+        width: 30%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid #345eeb;
+        }
+        #headings
+        {
+        font-family: Arial, Helvetica, sans-serif;
+        color:#345eeb;
+        font-size: 30px;
+        }
+        .submit {
+              background-color: #345eeb;
+              border: none;
+              color: white;
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
+              border-radius:10px;
+              margin-bottom:5px;
+            }
+
+    </style>
+</head>
+<body>
+<div class="topnav">
+  <a class="active" href="#home">Home</a>
+  <a href="{% url 'teacher login' %}">Teacher Login</a>
+  <a href="{% url 'student login' %}">Student Login</a>
+   <a href="#" style="float:right;">Contact Us</a>
+</div>
+<center>
+    <form  autocomplete="off"  method="POST">
+     {% csrf_token %}
+        <br> <br> <br> <br>
+       <h2>About Us Page</h2>
+    </form>
+</center>
+</body>
+</html>

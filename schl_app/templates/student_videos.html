@@ -1,0 +1,56 @@
+<html>
+<title>Videos Page</title>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
+    <style>
+        .textbox
+        {
+        width: 30%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid #345eeb;
+        }
+        #headings
+        {
+        font-family: Arial, Helvetica, sans-serif;
+        color:#345eeb;
+        font-size: 30px;
+        }
+        .submit {
+              background-color: #345eeb;
+              border: none;
+              color: white;
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
+              border-radius:10px;
+              margin-bottom:5px;
+            }
+
+
+    </style>
+</head>
+<body>
+<div class="topnav">
+  <a class="active" href="{% url 'student logout' %}">Logout</a>
+  <a href="{% url 'student results' %}">My Results</a>
+  <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+</div>
+<center>
+<div>
+    <iframe width="520" height="415" src="https://www.youtube.com/embed/xUFo94TXwqc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe width="520" height="415" src="https://www.youtube.com/embed/NDLBWf7UfIM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe width="520" height="415" src="https://www.youtube.com/embed/-a80_xFsh9w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe width="520" height="415" src="https://www.youtube.com/embed/8kUyDtk0Yjw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+    </center>
+</body>
+</html>
