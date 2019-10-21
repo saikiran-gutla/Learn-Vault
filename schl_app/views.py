@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.models import User
+from django.template import RequestContext
+
 from schl_app.models import StudentDetails, \
     TeacherDetails, \
     TestData
@@ -16,7 +18,7 @@ import json
 from datetime import datetime, date
 import ast
 from django.forms.models import model_to_dict
-
+from django.views.decorators.csrf import csrf_protect
 
 def home_page(request):
     return render(request, 'index.html', {})
@@ -29,7 +31,7 @@ def student_videos(request):
 def student_results(request):
     return render(request, 'student_results.html', {})
 
-
+@csrf_protect
 def student_register(request):
     context = {}
     stud_id, tech_id = gen_rand_id()
@@ -59,7 +61,8 @@ def student_register(request):
         msg = user_name + " created successfully with ID : " + stud_id + "\nLogin into your Student account from Login Page"
         messages.success(request, msg)
         # return render(request, 'student_login.html', context)
-        return redirect('home page')
+        return render(request, 'index.html', context)
+        # return redirect('home page')
     else:
         return render(request, 'student_register.html', context)
 
@@ -95,8 +98,9 @@ def teacher_register(request):
         context = {'teacher': teacher_profile}
         msg = user_name + " created successfully with ID : " + tech_id + '\nLogin into your Teacher account from Login Page'
         messages.success(request, msg)
-        return redirect('home page')
-    # return render(request, 'teacher_login.html', context)
+        # return redirect('home page')
+        return render(request, 'index.html', context)
+    #   return render(request, 'teacher_login.html', context)
     else:
         return render(request, 'teacher_register.html', context)
 
