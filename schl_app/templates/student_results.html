@@ -3,7 +3,7 @@
 <title>WelCome</title>
 <head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
- <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {% load staticfiles %}
     <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -39,24 +39,25 @@
             }
 
 
+
     </style>
 </head>
 <body>
 <div class="navbar">
-  <a class="active" href="{% url 'student logout' %}">Logout</a>
-  <a href="{% url 'student videos' %}">Videos</a>
-  <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'student videos' %}">Videos</a>
+    <a class="active" href="{% url 'student logout' %}">Logout</a>
 </div>
-	<h1>Student results</h1>
+<h1>Student results</h1>
 
 <form action='{%url "Student Results View"%}' method="GET" autocomplete="off">
-     <ol>
-    {% for results in result %}
-      <label><b>NAME:</b></label>{{ results.student_name }} <br><br>
-      <label><b>ID:</b></label>{{ results.student_id }}<br><br>
-      <label><b>SCORE:</b></label>{{ results.score }}<br><br>
-      <label><b>REMARK:</b></label>{{ results.remark }}<br><br>
-    {% endfor %}
+    <ol>
+        {% for results in result %}
+        <label><b>NAME:</b></label>{{ results.student_name }} <br><br>
+        <label><b>ID:</b></label>{{ results.student_id }}<br><br>
+        <label><b>SCORE:</b></label>{{ results.score }}<br><br>
+        <label><b>REMARK:</b></label>{{ results.remark }}<br><br>
+        {% endfor %}
     </ol>
 </form>
 </body>
