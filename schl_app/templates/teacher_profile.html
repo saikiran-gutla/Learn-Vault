@@ -44,28 +44,35 @@
 <div class="navbar">
     <a href="{% url 'home page' %}">Logout</a>
 </div>
-<form action='{%url "Teacher Profile View" %}' autocomplete="off">
+<form action='{%url "Teacher Profile View" %}' autocomplete="off" id="techer_editForm">
     {% csrf_token %}
     <div class="container-fluid">
         {% for profile in profiles %}
         <div class="row">
-            <label>Profile Name </label>
+            <label>Name </label>
             <div class="col-sm-10">
-                <input type="text" name="Name" required class="textbox"
+                <input type="text" name="Name" required class="textbox" id="teacher_name" 
                        value="{{ profile.Name }}" disabled>
             </div>
         </div>
         <div class="row">
             <label>Teacher ID : </label>
             <div class="col-sm-10">
-                <input type="text" name="Id" required class="textbox"
+                <input type="text" name="Id" required class="textbox" id="teacher_id" 
                        value="{{ profile.Id }}" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <label>Gender : </label>
+            <div class="col-sm-10">
+                <input type="text" name="Gender" required class="textbox" id="teacher_gender"
+                value="{{ profile.Gender }}"  disabled>
             </div>
         </div>
         <div class="row">
             <label>Father Name : </label>
             <div class="col-sm-10">
-                <input type="text" name="Father_Name" required class="textbox"
+                <input type="text" name="Father_Name" required class="textbox" id="teacher_fa" 
                        value="{{ profile.Father_Name }}" disabled>
             </div>
         </div>
@@ -73,7 +80,7 @@
         <div class="row">
             <div class="col-xs-1"><label>Email Id : </label></div>
             <div class="col-sm-10">
-                <input type="email" name="Email_Id" required class="textbox"
+                <input type="email" name="Email_Id" required class="textbox" id="teacher_em" 
                        value="{{ profile.Email_Id }}" disabled>
             </div>
         </div>
@@ -81,14 +88,19 @@
             <div class="col-xs-1">
                 <label>Mobile Number: </label></div>
             <div class="col-sm-10">
-                <input type="number" name="Mobile_No" required class="textbox"
+                <input type="number" name="Mobile_No" required class="textbox" id="teacher_no" 
                        value="{{ profile.Mobile_No }}" disabled>
             </div>
         </div>
-        <!--        <div class="inputBox">-->
-        <!--            <label>Teacher ID : </label><input type="radio" name="Gender" required class="textbox" value="{{ profile.Gender }}">-->
-        <!--        </div>-->
-
+        <div class="row">
+            <div class="col-xs-1">
+                <label>Date Of Birth : </label></div>
+            <div class="col-sm-10">
+                <input type="date" name="date" required class="textbox"
+                       id="teacher_dob" data-date="" data-date-format="YYYY MMMM DD" 
+                       value="{{ profile.DOB }}"  class="textbox" disabled>
+            </div>
+        </div>
         {% endfor %}
     </div>
     <div class="row">
@@ -118,11 +130,11 @@ function enableTextBoxes() {
         cells[i].disabled = false;
     }
     document.getElementById("btn1").disabled = false;
-}
-
-        $('#examForm').on('submit', function(event) {
-            // using jQuery
-                function getCookie(name) {
+} 
+</script>
+<script type="text/javascript">
+        $(document).on('submit','#techer_editForm', function(e){
+              function getCookie(name) {
                     var cookieValue = null;
                     if (document.cookie && document.cookie != '') {
                         var cookies = document.cookie.split(';');
@@ -150,44 +162,22 @@ function enableTextBoxes() {
                     }
                 });
 
-            event.preventDefault()
-            var rawData = event.target.getElementsByTagName('input');
-            var data = []
-            for(i = 0; i < rawData.length; i++) {
-                if(rawData[i].type == "radio" && rawData[i].checked) {
-                    data.push({
-                        Name : rawData[i].name,
-                        DOB : rawData[i].value
-                    });
-                }
-            }
-            console.log('array data', data)
-            if(data.length > 0) {
-                $.ajax({
-                    method: "POST",
-                    url: "{% url 'Test Data' %}",
-                    data: JSON.stringify(data),
-                });
-            }
-            alert("your data successfully submit");
-    })
+            e.preventDefault()
+            $.ajax({
+                method: 'POST',
+                url: "{% url 'teacher profile update'%}",
+                data:{
+                       'Name': $('#teacher_name').val(),
+                       // 'Id': $('#teacher_id').val(),
+                       'Father_Name': $('#teacher_fa').val(),
+                       'Email_Id': $('#teacher_em').val(),
+                       'Mobile_No': $('#teacher_no').val(),
+                       'DOB': $('#teacher_dob').val()
 
+                },
+            });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        })
 </script>
 </body>
 </html>

@@ -46,7 +46,7 @@
 <div class="navbar">
     {% csrf_token %}
     <a href="#">Welcome {{ user }}</a>
-    <a href="{% url 'student results' %}">My Results</a>
+    <a href="{% url 'Student Results View' %}">My Results</a>
     <a href="{% url 'student videos' %}">Videos</a>
     <a href="{% url 'Student Profile View' %}">Edit Profile</a>
     <a class="active" href="{% url 'home page' %}">Logout</a>
