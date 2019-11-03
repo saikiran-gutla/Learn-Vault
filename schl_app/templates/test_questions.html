@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
- <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load staticfiles %}
-    <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
-    <style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% load staticfiles %}
+<link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
+<style>
         .textbox
         {
         width: 30%;
@@ -40,22 +40,25 @@
             }
 
 
-    </style>
+
+</style>
 </head>
-<body >
+<body>
 <div class="navbar">
-  <a href="{% url 'student login' %}">Logout</a>
+    <a href="{% url 'student login' %}">Logout</a>
 </div>
 
 <form action='{%url "test questions"%}' autocomplete="off" id="examForm">
     <ol>
-    {% for questions in question %}
-
+        {% for questions in question %}
         <li>{{ questions.Question }}</li>
+        <span><font>HINT: </font>
+            <input type="checkbox" id="{{ questions.Question_No }}" onclick="myFunction()"></span>
+        <font id="{{ questions.Lable_No }}" style="display:none;">{{ questions.Hint }}</font><br>
         {% for items in questions.Choices %}
-                <input type="radio" name="{{ questions.Question }}" value="{{ items }}">{{ items }}<br>
+        <input type="radio" name="{{ questions.Question }}" value="{{ items }}">{{ items }}<br>
         {% endfor %}
-    {% endfor %}
+        {% endfor %}
     </ol>
 
     <div class="row">
@@ -65,14 +68,35 @@
     </div>
 </form>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
 </script>
- <script>
+<script>
+    <!--WHEN USER CLICKS ON REGISTER BUTTON IN STUDENT LOGIN PAGE-->
+function myFunction() {
+  var checkBox1 = document.getElementById("q1");
+  var checkBox2 = document.getElementById("q2");
+  var checkBox3 = document.getElementById("q3");
+  var text1 = document.getElementById("l1");
+  var text2 = document.getElementById("l2");
+  var text3 = document.getElementById("l3");
+  if (checkBox1.checked == true){
+  document.getElementById("q1").disabled = true;
+    text1.style.display = "block";
+  }
+    if (checkBox2.checked == true){
+    document.getElementById("q2").disabled = true;
+    text2.style.display = "block";
+  }
+    if (checkBox3.checked == true){
+    document.getElementById("q3").disabled = true;
+    text3.style.display = "block";
+  }
+  }
 
         $('#examForm').on('submit', function(event) {
             // using jQuery
@@ -125,8 +149,11 @@ integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCm
             }
             alert("your data successfully submit");
     })
-    </script>
-    </body>
+
+
+
+</script>
+</body>
 </html>
 
 <!-- "https://api.mlab.com/api/1/databases/newapi/collections/userdetails?apiKey=PY2E5LtsakOOqKaXb8VciACX4-iK-O-n" -->

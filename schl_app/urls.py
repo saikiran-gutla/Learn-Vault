@@ -14,7 +14,7 @@ from schl_app.views import student_register, \
     Student_Profile,\
     Teacher_Profile,contact_us,\
     student_profile_update,\
-    teacher_profile_update
+    teacher_profile_update,student_results
 
 urlpatterns = [
     url(r'^stu_register/', student_register, name='student register'),
@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^test/', test_questions, name='test questions'),
     url(r'^home_page/', home_page, name='home page'),
     url(r'^student_videos/', student_videos, name='student videos'),
-    # url(r'^student_results/', student_results, name='student results'),
+    url(r'^student_results/', student_results, name='student results'),
     url(r'^store_test_data/', StoreTestData, name='Test Data'),
     url(r'^results/', StudentResultsView, name='Student Results View'),
     url(r'^all_results/', TeacherResultsView, name='Teacher Results View'),
