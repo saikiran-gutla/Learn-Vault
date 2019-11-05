@@ -63,7 +63,7 @@
 
     <div class="row">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary form-control" id="btn1" onclick="loadNewDoc()">SUBMIT</button>
+            <button type="submit" class="btn btn-primary form-control" id="btn1">SUBMIT</button>
         </div>
     </div>
 </form>
@@ -99,18 +99,23 @@ function myFunction() {
   }
 
 <!--  THE BELOW 2 METHODS REDIRECTS TO RESULT PAGE AFTER WRITING THE EXAM-->
-    function loadNewDoc(){
-        alert('Exam Results are Submitting');
-      window.location="http://127.0.0.1:8000/api/results/";
-  }
-      function exam_timeout(){
-      alert('Exam Time Completed..redirecting to results page');
-      window.location="http://127.0.0.1:8000/api/results/";
-  }
+     function exam_timeout()
+     {
+        document.getElementById("btn1").click();
+     }
 
 
 
 <!--  TIMER RELATED CODE GOES HERE -->
+
+
+window.onload = function () {
+    var fiveMinutes = 60 * 2,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+    setTimeout('exam_timeout()', 10000)
+};
+
 function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
     setInterval(function () {
@@ -126,13 +131,6 @@ function startTimer(duration, display) {
         }
     }, 1000);
 }
-
-window.onload = function () {
-    var fiveMinutes = 60 * 2,
-        display = document.querySelector('#time');
-    startTimer(fiveMinutes, display);
-    setTimeout('exam_timeout()', 122000)
-};
 
         $('#examForm').on('submit', function(event) {
             // using jQuery
@@ -183,6 +181,8 @@ window.onload = function () {
                     data: JSON.stringify(data),
                 });
             }
+            alert('Exam Completed');
+            window.location="http://127.0.0.1:8000/api/results/";
     })
 
 
