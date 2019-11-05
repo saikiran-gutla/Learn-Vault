@@ -97,7 +97,9 @@ function myFunction() {
     text3.style.display = "block";
   }
   }
-
+  function preventBack(){window.history.forward();}
+  setTimeout("preventBack()", 0);
+  window.onunload=function(){null};
 <!--  THE BELOW 2 METHODS REDIRECTS TO RESULT PAGE AFTER WRITING THE EXAM-->
      function exam_timeout()
      {
@@ -112,7 +114,7 @@ window.onload = function () {
     var fiveMinutes = 60 * 2,
         display = document.querySelector('#time');
     startTimer(fiveMinutes, display);
-    setTimeout('exam_timeout()', 10000)
+    setTimeout('exam_timeout()', 122000)
 };
 
 function startTimer(duration, display) {
@@ -183,9 +185,8 @@ function startTimer(duration, display) {
             alert('Exam Completed');
             window.location="http://127.0.0.1:8000/api/results/";
     })
-
-
-
+<!--    INFORMS THE USER TO NOT GO TO BACK WHILE WRITING THE EXAM   -->
+window.onbeforeunload = function() { return "Your exam progress will be lost."; };
 </script>
 </body>
 </html>

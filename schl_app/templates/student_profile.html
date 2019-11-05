@@ -38,6 +38,8 @@
               border-radius:10px;
               margin-bottom:5px;
             }
+
+
 </style>
 </head>
 <body>
@@ -105,8 +107,8 @@
                 <label>Date Of Birth : </label></div>
             <div class="col-sm-10">
                 <input type="date" name="date" required class="textbox"
-                       id="stu_dob" data-date="" data-date-format="YYYY MMMM DD" 
-                       value="{{ profile.DOB }}"  class="textbox" disabled>
+                       id="stu_dob" data-date="" data-date-format="YYYY MMMM DD"
+                       value="{{ profile.DOB }}" class="textbox" disabled>
             </div>
         </div>
         {% endfor %}
@@ -116,9 +118,15 @@
             <input type="button" class="btn btn-primary form-control" id="edit" value="Edit"
                    onclick="enableTextBoxes()">
         </div>
-
         <div class="col-md-3">
             <button type="submit" class="btn btn-primary form-control" id="btn1" disabled>Update</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p></p><br>
+            <input type="button" class="btn btn-primary form-control" id="cancel" value="cancel"
+                   onclick="disableTextBoxes()" style="display:none;">
         </div>
     </div>
 </form>
@@ -137,8 +145,20 @@ function enableTextBoxes() {
     for (var i = 0; i < cells.length; i++) {
         cells[i].disabled = false;
     }
+    document.getElementById("stu_id").disabled = true;
+    document.getElementById("stu_em").disabled = true;
+    document.getElementById("stu_gender").disabled = true;
     document.getElementById("btn1").disabled = false;
+    document.getElementById('cancel').style.display = "block";
 }
+function disableTextBoxes() {
+    var cells = document.getElementsByClassName("textbox");
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].disabled = true;
+    }
+    document.getElementById('cancel').style.display = "none";
+    }
+
 </script>
 <script type="text/javascript">
         $(document).on('submit','#Stu_editForm', function(e){
@@ -186,6 +206,8 @@ function enableTextBoxes() {
             });
 
         })
+
+
 </script>
 </body>
 </html>
