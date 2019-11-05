@@ -48,7 +48,7 @@
     <a href="{% url 'student login' %}">Logout</a>
 </div>
 
-<form action='{%url "test questions"%}' autocomplete="off" id="examForm">
+<form action='{%url "Student Results View"%}' autocomplete="off" id="examForm">
     <ol>
         {% for questions in question %}
         <li>{{ questions.Question }}</li>
@@ -63,7 +63,7 @@
 
     <div class="row">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary form-control" id="btn1">SUBMIT</button>
+            <button type="submit" class="btn btn-primary form-control" id="btn1" onclick="newLocation()">SUBMIT</button>
         </div>
     </div>
 </form>
@@ -96,6 +96,13 @@ function myFunction() {
     document.getElementById("q3").disabled = true;
     text3.style.display = "block";
   }
+  }
+ function newLocation() {
+        alert('Test Completed..Redirecting to Results..wait for 2 sec')
+        setTimeout('loadNewDoc()', 2000)
+    }
+ function loadNewDoc(){
+      window.location="http://127.0.0.1:8000/api/results/";
   }
 
         $('#examForm').on('submit', function(event) {
@@ -147,7 +154,6 @@ function myFunction() {
                     data: JSON.stringify(data),
                 });
             }
-            alert("your data successfully submit");
     })
 
 
