@@ -47,7 +47,7 @@
 <div class="navbar">
     <a href="{% url 'student login' %}">Logout</a>
 </div>
-
+<div style="float:right;">Exam Ends in : <span id="time" style="color: red;">02:00</span> minutes!</div>
 <form action='{%url "Student Results View"%}' autocomplete="off" id="examForm">
     <ol>
         {% for questions in question %}
@@ -63,7 +63,7 @@
 
     <div class="row">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary form-control" id="btn1" onclick="newLocation()">SUBMIT</button>
+            <button type="submit" class="btn btn-primary form-control" id="btn1" onclick="loadNewDoc()">SUBMIT</button>
         </div>
     </div>
 </form>
@@ -97,13 +97,42 @@ function myFunction() {
     text3.style.display = "block";
   }
   }
- function newLocation() {
-        alert('Test Completed..Redirecting to Results..wait for 2 sec')
-        setTimeout('loadNewDoc()', 2000)
-    }
- function loadNewDoc(){
+
+<!--  THE BELOW 2 METHODS REDIRECTS TO RESULT PAGE AFTER WRITING THE EXAM-->
+    function loadNewDoc(){
+        alert('Exam Results are Submitting');
       window.location="http://127.0.0.1:8000/api/results/";
   }
+      function exam_timeout(){
+      alert('Exam Time Completed..redirecting to results page');
+      window.location="http://127.0.0.1:8000/api/results/";
+  }
+
+
+
+<!--  TIMER RELATED CODE GOES HERE -->
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var fiveMinutes = 60 * 2,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+    setTimeout('exam_timeout()', 122000)
+};
 
         $('#examForm').on('submit', function(event) {
             // using jQuery
