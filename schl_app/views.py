@@ -356,3 +356,11 @@ def teacher_profile_update(request):
         teacher.save()
         return redirect("Teacher Profile View")
     return render(request, 'teacher_profile.html', {'teacher': model_to_dict(teacher)})
+
+
+def stu_contact(request):
+    return render(request, 'scontact.html', {})
+
+
+def Teac_contact(request):
+    return render(request, 'tcontact.html', {})
