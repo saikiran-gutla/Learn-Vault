@@ -27,12 +27,6 @@ def home_page(request):
     return render(request, 'index.html', {})
 
 
-def student_videos(request):
-    return render(request, 'student_videos.html', {})
-
-
-def student_results(request):
-    return render(request, 'student_results.html', {})
 
 
 @csrf_protect
@@ -174,6 +168,14 @@ def gen_rand_id():
     stud_id += gen_id()
     tech_id += gen_id()
     return stud_id, tech_id
+
+@login_required
+def student_videos(request):
+    return render(request, 'student_videos.html', {})
+
+@login_required
+def student_results(request):
+    return render(request, 'student_results.html', {})
 
 
 @login_required
@@ -319,7 +321,7 @@ def Teacher_Profile(request):
         return render(request, 'teacher_profile.html', {'profiles': details_list})
 
 
-@login_required
+
 def contact_us(request):
     return render(request, 'contact_us.html', {})
 
@@ -356,3 +358,16 @@ def teacher_profile_update(request):
         teacher.save()
         return redirect("Teacher Profile View")
     return render(request, 'teacher_profile.html', {'teacher': model_to_dict(teacher)})
+
+
+def stu_contact(request):
+    return render(request, 'scontact.html', {})
+
+
+def Teac_contact(request):
+    return render(request, 'tcontact.html', {})
+
+
+def Logout(request):
+    logout(request)
+    return redirect('/')

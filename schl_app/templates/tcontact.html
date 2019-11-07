@@ -40,30 +40,25 @@
               margin-bottom:5px;
             }
 
-
     </style>
 </head>
 <body>
-{% if user.is_authenticated %}
-<h1>authenticated</h1>
-{% else %}
-<h1>not</h1>
-{% endif %}
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
-    <a class="active" href="{% url 'home page' %}">Home</a>
-    <a href="#" style="float:right;">About Us</a>
+     {% csrf_token %}
+    <a href="{% url 'teacher home' %}">Welcome {{ user }}</a>
+   <a href="#" style="float:right;">Contact Us</a>
 </div>
 <center>
-    <form autocomplete="off" method="POST">
-        {% csrf_token %}
+    <form  autocomplete="off"  method="POST">
+     {% csrf_token %}
         <br> <br> <br> <br>
-        <h1>TEAM MEMBERS OF THE PROJECT TEAM 2</h1>
+       <h1>TEAM MEMBERS OF THE PROJECT TEAM 2</h1>
         <h3>SAI KUMAR REDDY GANGASANI – gangasanis@mail.sacredheart.edu</h3>
-        <h3>AKHIL PATURI ​​ – paturia@mail.sacredheart.edu</h3>
-        <h3>BHAVANA REDDY SIDDA​ – siddab@mail.sacredheart.edu</h3>
-        <h3>GURUPREM BHULLAR​​ – bhullarg@mail.sacredheart.edu</h3>
-        <h3>VARUN GAJULA​​​ – gajulav@mail.sacredheart.edu</h3>
+        <h3>AKHIL PATURI ​​                  – paturia@mail.sacredheart.edu</h3>
+        <h3>BHAVANA REDDY SIDDA​      – siddab@mail.sacredheart.edu</h3>
+        <h3>GURUPREM BHULLAR​​      – bhullarg@mail.sacredheart.edu</h3>
+        <h3>VARUN GAJULA​​​      – gajulav@mail.sacredheart.edu</h3>
     </form>
 </center>
 </body>
