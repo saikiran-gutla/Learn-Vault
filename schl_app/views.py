@@ -27,8 +27,6 @@ def home_page(request):
     return render(request, 'index.html', {})
 
 
-
-
 @csrf_protect
 def student_register(request):
     context = {}
@@ -108,11 +106,6 @@ def student_login_view(request):
     return render(request, 'student_login.html')
 
 
-def student_logout_view(request):
-    logout(request)
-    return redirect("student login")
-
-
 def student_home(request):
     if request.method == "POST":
         username, password = request.POST['username'], request.POST['password']
@@ -131,11 +124,6 @@ def student_home(request):
 
 def teacher_login_view(request):
     return render(request, 'teacher_login.html')
-
-
-def teacher_logout_view(request):
-    logout(request)
-    return redirect("teacher login")
 
 
 def teacher_home(request):
@@ -169,9 +157,11 @@ def gen_rand_id():
     tech_id += gen_id()
     return stud_id, tech_id
 
+
 @login_required
 def student_videos(request):
     return render(request, 'student_videos.html', {})
+
 
 @login_required
 def student_results(request):
@@ -321,7 +311,6 @@ def Teacher_Profile(request):
         return render(request, 'teacher_profile.html', {'profiles': details_list})
 
 
-
 def contact_us(request):
     return render(request, 'contact_us.html', {})
 
@@ -358,10 +347,6 @@ def teacher_profile_update(request):
         teacher.save()
         return redirect("Teacher Profile View")
     return render(request, 'teacher_profile.html', {'teacher': model_to_dict(teacher)})
-
-
-def stu_contact(request):
-    return render(request, 'scontact.html', {})
 
 
 def Teac_contact(request):
