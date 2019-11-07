@@ -44,8 +44,10 @@
 </style>
 </head>
 <body>
+{% if user.is_authenticated %}
+<h1>authenticated</h1>
 <div class="navbar">
-    <a href="{% url 'student login' %}">Logout</a>
+    <a href="{% url 'Logout' %}">Signout</a>
 </div>
 <div style="float:right;">Exam Ends in : <span id="time" style="color: red;">02:00</span> minutes!</div>
 <form action='{%url "Student Results View"%}' autocomplete="off" id="examForm">
@@ -60,13 +62,15 @@
         {% endfor %}
         {% endfor %}
     </ol>
-
     <div class="row">
         <div class="col-md-3">
             <button type="submit" class="btn btn-primary form-control" id="btn1">SUBMIT</button>
         </div>
     </div>
 </form>
+{% else %}
+<h1>Not Authenticated</h1>
+{% endif %}
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
