@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-</head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-{% load staticfiles %}
-<link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
-<style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <link href="{% static 'styles.css' %}" type="text/css" rel="stylesheet">
+    <style>
         .textbox
         {
         width: 30%;
-        padding: 9px 20px;
-        margin: 2px 0;
+        padding: 12px 20px;
+        margin: 8px 0;
         box-sizing: border-box;
         border: none;
         border-bottom: 2px solid #345eeb;
@@ -40,11 +41,19 @@
             }
 
 
-</style>
+    </style>
 </head>
 <body>
+<img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
-    <a href="{% url 'home page' %}">Logout</a>
+    {% csrf_token %}
+    <a href="#">Welcome {{ user }}</a>
+    <a href="{% url 'Student Results View' %}">Check Results</a>
+    <a href="{% url 'student videos' %}">Tutorials for Test</a>
+    <a href="{% url 'Student Profile View' %}">Edit Profile</a>
+    <a class="active" href="{% url 'home page' %}">Logout</a>
+    <a href="#" style="float:right;">About Us</a>
+    <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
 <form action='{%url "Student Profile View" %}' autocomplete="off" id="Stu_editForm">
     {% csrf_token %}
@@ -114,20 +123,11 @@
         {% endfor %}
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <input type="button" class="btn btn-primary form-control" id="edit" value="Edit"
-                   onclick="enableTextBoxes()">
-        </div>
-        <div class="col-md-3">
-            <button type="submit" class="btn btn-primary form-control" id="btn1" disabled>Update</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <p></p><br>
-            <input type="button" class="btn btn-primary form-control" id="cancel" value="cancel"
-                   onclick="disableTextBoxes()" style="display:none;">
-        </div>
+        <input type="button" class="submit" id="edit" value="Edit"
+               onclick="enableTextBoxes()">
+        <button type="submit" class="submit" id="btn1" disabled>Update</button>
+        <span><input type="button" class="submit" id="cancel" value="cancel"
+                     onclick="disableTextBoxes()" style="display:none;"></span>
     </div>
 </form>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"
@@ -158,6 +158,8 @@ function disableTextBoxes() {
     }
     document.getElementById('cancel').style.display = "none";
     }
+
+
 
 </script>
 <script type="text/javascript">
@@ -204,8 +206,11 @@ function disableTextBoxes() {
 
                 },
             });
-
+            alert('Profile Updated');
+            disableTextBoxes();
         })
+
+
 
 
 </script>
