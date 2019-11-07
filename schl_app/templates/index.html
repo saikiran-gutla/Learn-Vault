@@ -43,8 +43,12 @@
 <body>
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
-    <a href="#home">Home</a>
     <!--    LOGIN DESIGN -->
+    {% if user.is_authenticated %}
+    <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    <a class="active" href="{% url 'Logout' %}">Signout</a>
+    {% else %}
+    <a href="#home">Home</a>
     <div class="dropdown">
         <button class="dropbtn" onclick="login()">Login
             <i class="fa fa-caret-down"></i>
@@ -54,6 +58,7 @@
             <a id="register_form">Register</a>
         </div>
     </div>
+    {% endif %}
     <a href="#" style="float:right;">About Us</a>
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
