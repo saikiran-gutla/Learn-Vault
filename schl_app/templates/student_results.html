@@ -81,16 +81,16 @@
 </div>
 <center>
     <form action='{%url "Student Results View"%}' method="GET" autocomplete="off">
-        <ol>
-            {% for results in result %}
-            {% for result in results.values %}
-            <label><b>NAME:</b></label>{{ result.student_name }} <br><br>
-            <label><b>ID:</b></label>{{ result.student_id }}<br><br>
-            <label><b>SCORE:</b></label>{{ result.score }}<br><br>
-            <label><b>REMARK:</b></label>{{ result.remark }}<br><br>
-            {% endfor %}
-            {% endfor %}
-        </ol>
+<!--        <ol>-->
+<!--            {% for results in result %}-->
+<!--            {% for result in results.values %}-->
+<!--            <label><b>NAME:</b></label>{{ result.student_name }} <br><br>-->
+<!--            <label><b>ID:</b></label>{{ result.student_id }}<br><br>-->
+<!--            <label><b>SCORE:</b></label>{{ result.score }}<br><br>-->
+<!--            <label><b>REMARK:</b></label>{{ result.remark }}<br><br>-->
+<!--            {% endfor %}-->
+<!--            {% endfor %}-->
+<!--        </ol>-->
         <h1>Student results</h1>
         <table>
             {% for results in result %}
