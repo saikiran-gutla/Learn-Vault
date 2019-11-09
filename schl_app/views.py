@@ -265,7 +265,9 @@ def TeacherResultsView(request):
 
                 results_list.append(results)
             except:
-                print("No Data")
+                results_list.append({
+                    "No_Data":"No Results Found"
+                })
         return render(request, 'teacher_results_view.html', {'result': results_list})
 
 
