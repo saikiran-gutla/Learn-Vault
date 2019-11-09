@@ -38,6 +38,7 @@
               border-radius:10px;
               margin-bottom:5px;
             }
+
     </style>
 </head>
 <body>
@@ -45,7 +46,11 @@
 <div class="navbar">
     <!--    LOGIN DESIGN -->
     {% if user.is_authenticated %}
+    {% if user.is_staff %}
+    <a href="{% url 'teacher home' %}">Welcome {{ user }}</a>
+    {% else %}
     <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    {% endif %}
     <a class="active" href="{% url 'Logout' %}">Signout</a>
     {% else %}
     <a href="#home">Home</a>
@@ -58,7 +63,9 @@
             <a id="register_form">Register</a>
         </div>
     </div>
+
     {% endif %}
+
     <a href="#" style="float:right;">About Us</a>
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
@@ -92,7 +99,8 @@
 
                 </div>
                 <input type="submit" class="submit">
-                <input type="button" class="submit" value="Create Account" id="register_student1" onclick="student_register_click()">
+                <input type="button" class="submit" value="Create Account" id="register_student1"
+                       onclick="student_register_click()">
             </form>
         </div>
         <!--    TEACHER LOGIN FORM      -->
@@ -107,8 +115,9 @@
                     <input type="Password" name="password" required="" class="textbox" placeholder="Enter Password">
                 </div>
                 <input type="submit" class="submit">
-<!--                <a href="{%url 'teacher register' %}">Create New Account</a>-->
-                 <input type="button" class="submit" value="Create Account" id="register_teacher" onclick="teacher_register_click()">
+                <!--                <a href="{%url 'teacher register' %}">Create New Account</a>-->
+                <input type="button" class="submit" value="Create Account" id="register_teacher"
+                       onclick="teacher_register_click()">
             </form>
         </div>
     </div>
@@ -490,6 +499,7 @@ window.onclick = function(e) {
     }
   }
 }
+
 
 </script>
 </html>

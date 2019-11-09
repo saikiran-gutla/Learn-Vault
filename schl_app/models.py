@@ -6,6 +6,13 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
+class Video(models.Model):
+    name = models.CharField(max_length=500)
+    videofile = models.FileField(upload_to='media/', null=True, verbose_name="")
+
+    def __str__(self):
+        return self.name + ": " + str(self.videofile)
+
 
 class StudentDetails(models.Model):
     student_name = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -20,6 +27,7 @@ class StudentDetails(models.Model):
 
     class Meta:
         unique_together = ('mail_id',)
+
     def __str__(self):
         return "%s" % (self.student_name)
 
@@ -31,13 +39,15 @@ class TeacherDetails(models.Model):
     mobile_no = models.CharField(max_length=20, null=True)
     teacher_mail_id = models.CharField(max_length=40, null=True)
     teacher_password = models.CharField(max_length=25, null=True)
-    teacher_DOB = models.DateField()
+    teacher_DOB = models.DateField(null=True)
     tec_father_name = models.CharField(max_length=200, null=True)
 
     class Meta:
         unique_together = ('teacher_mail_id',)
+
     def __str__(self):
         return "%s" % (self.teacher_name)
+
 
 class TestData(models.Model):
     Student_Name = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -45,4 +55,4 @@ class TestData(models.Model):
     Test_Date = models.DateField()
 
     def __str__(self):
-        return "%s" %(self.Student_Name)
+        return "%s" % (self.Student_Name)

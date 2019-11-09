@@ -7,7 +7,7 @@ from django.template import RequestContext
 
 from schl_app.models import StudentDetails, \
     TeacherDetails, \
-    TestData
+    TestData, Video
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from schl_app.questions import questions_list
@@ -21,6 +21,7 @@ from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from .forms import VideoForm
 
 
 def home_page(request):
@@ -112,13 +113,13 @@ def student_home(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            user_name = request.user.first_name + ' ' + request.user.last_name
+            user_name = request.user
             return render(request, 'student_home.html', {'user': user_name})
         else:
             messages.error(request, 'Invalid Login Credentials')
             return redirect('home page')
     else:
-        user_name = request.user.first_name + ' ' + request.user.last_name
+        user_name = request.user
         return render(request, 'student_home.html', {'user': user_name})
 
 
@@ -198,31 +199,41 @@ def StudentResultsView(request):
     if request.method == "GET":
         results = {}
         results_list = []
-        correct_ans = 0
-        wrong_ans = 0
+        correct_ans = {}
         qn_list = questions_list
-        if request.user.is_staff != True:
-            testdata_obj = TestData.objects.filter(Student_Name=request.user).latest('id')
-            test_data = model_to_dict(testdata_obj)
-            testdata_json = json.loads(test_data['Test_Data'])
-            for testdata in testdata_json:
-                for qstn in qn_list:
-                    if testdata['question'] == qstn['question'] and testdata['ans'] == qstn['answer']:
-                        correct_ans += 1
-                    elif testdata['question'] == qstn['question'] and testdata['ans'] != qstn['answer']:
-                        wrong_ans += 1
+        if request.user.is_active is True and request.user.is_staff is not True:
+            try:
+                testdata_obj = TestData.objects.filter(Student_Name__username   =request.user).order_by('-id')
+                for test_data in testdata_obj:
+                    student_details = StudentDetails.objects.get(student_name__username=test_data.Student_Name.username)
+                    results[test_data.id] = {
+                        'student_name': test_data.Student_Name.username,
+                        'student_id': student_details.student_id,
+                        'score': 0,
+                        'class': student_details.standard,
+                        'test_date': str(test_data.Test_Date)
+                    }
+                    correct_ans[test_data.id] = {'score': 0}
+                    testdata_json = json.loads(test_data.Test_Data)
+                    for testdata in testdata_json:
+                        for qstn in qn_list:
+                            if testdata['question'] == qstn['question'] and testdata['ans'] == qstn['answer']:
+                                results[test_data.id]['score'] += 1
+                                correct_ans[test_data.id]['score'] += 1
 
-        student_details = StudentDetails.objects.get(student_name__username=request.user)
-        results = {
-            'student_name': student_details.student_name.username,
-            'student_id': student_details.student_id,
-            'score': correct_ans
-        }
-        if correct_ans >= 2:
-            results.update({'remark': "PASS"})
-        else:
-            results.update({'remark': "FAIL"})
-        results_list.append(results)
+                    for scr in correct_ans.values():
+                        if scr['score'] >= 2:
+                            results[test_data.id].update({'remark': "PASS"})
+                        elif scr['score'] == 0:
+                            results[test_data.id].update({'remark': "FAIL"})
+                        else:
+                            results[test_data.id].update({'remark': "FAIL"})
+
+                results_list.append(results)
+            except:
+                results_list.append({
+                    "No_Data": "No Results Found"
+                })
         return render(request, 'student_results.html', {'result': results_list})
 
 
@@ -266,7 +277,7 @@ def TeacherResultsView(request):
                 results_list.append(results)
             except:
                 results_list.append({
-                    "No_Data":"No Results Found"
+                    "No_Data": "No Results Found"
                 })
         return render(request, 'teacher_results_view.html', {'result': results_list})
 
@@ -358,3 +369,18 @@ def Teac_contact(request):
 def Logout(request):
     logout(request)
     return redirect('/')
+
+@login_required
+def showvideo(request):
+    lastvideo = Video.objects.last()
+    videofile = lastvideo.videofile
+
+    form = VideoForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form.save()
+
+    context = {'videofile': videofile,
+               'form': form
+               }
+
+    return render(request, 'video_upload.html', context)
