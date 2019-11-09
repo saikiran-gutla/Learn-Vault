@@ -83,7 +83,6 @@
     <form action='{%url "Student Results View"%}' method="GET" autocomplete="off">
         <ol>
             {% for results in result %}
-            {{ results }}
             {% for result in results.values %}
             <label><b>NAME:</b></label>{{ result.student_name }} <br><br>
             <label><b>ID:</b></label>{{ result.student_id }}<br><br>
