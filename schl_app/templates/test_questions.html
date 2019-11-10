@@ -41,11 +41,11 @@
 
 
 
+
 </style>
 </head>
 <body>
 {% if user.is_authenticated %}
-<h1>authenticated</h1>
 <div class="navbar">
     <a href="{% url 'Logout' %}">Signout</a>
 </div>
@@ -56,7 +56,7 @@
         <li>{{ questions.Question }}</li>
         <span><font>HINT: </font>
             <input type="checkbox" id="{{ questions.Question_No }}" onclick="myFunction()" class="hint"></span>
-        <font id="{{ questions.Lable_No }}" style="display:none;">{{ questions.Hint }}</font><br>
+        <font id="{{ questions.Lable_No }}" style="display:none;" class="msg">{{ questions.Hint }}</font><br>
         {% for items in questions.Choices %}
         <input type="radio" name="{{ questions.Question }}" value="{{ items }}">{{ items }}<br>
         {% endfor %}
@@ -64,12 +64,12 @@
     </ol>
     <div class="row">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary form-control" id="btn1" >SUBMIT</button>
+            <button type="submit" class="btn btn-primary form-control" id="btn1">SUBMIT</button>
         </div>
     </div>
 </form>
 {% else %}
-<h1>Not Authenticated</h1>
+<h1>Cannot open Test..You are not authenticated for this</h1>
 {% endif %}
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -80,7 +80,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
 </script>
 <script>
-    <!--WHEN USER CLICKS ON REGISTER BUTTON IN STUDENT LOGIN PAGE-->
 function myFunction() {
   var checkBox1 = document.getElementById("q1");
   var checkBox2 = document.getElementById("q2");
@@ -101,6 +100,12 @@ function myFunction() {
     text3.style.display = "block";
   }
   }
+
+
+
+
+
+
   function preventBack(){window.history.forward();}
   setTimeout("preventBack()", 0);
   window.onunload=function(){null};
@@ -204,6 +209,7 @@ function startTimer(duration, display) {
     })
 <!--    INFORMS THE USER TO NOT GO TO BACK WHILE WRITING THE EXAM   -->
 window.onbeforeunload = function() { return "Your exam progress will be lost."; };
+
 </script>
 </body>
 </html>
