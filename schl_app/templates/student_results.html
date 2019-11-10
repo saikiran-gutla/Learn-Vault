@@ -10,7 +10,7 @@
             crossorigin="anonymous"></script>
     <style>
     <style>
-        .textbox
+           .textbox
         {
         width: 30%;
         padding: 12px 20px;
@@ -33,14 +33,42 @@
               text-align: center;
               text-decoration: none;
               display: inline-block;
-              font-size: 16px;
+              font-size: 1px;
               margin: 4px 2px;
               cursor: pointer;
               border-radius:10px;
               margin-bottom:5px;
             }
 
-    </style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+          }
+        th {
+          border: 3px solid #dddddd;
+          text-align: center;
+          font-size: 25px;
+          padding: 10px;
+          }
+        td {
+          border: 3px solid #dddddd;
+          text-align: center;
+          font-size: 20px;
+          padding: 10px;
+          }
+          body {
+          counter-reset: Serial;           /* Set the Serial counter to 0 */
+          }
+          table {
+            border-collapse: separate;
+          }
+          tr td:first-child:before
+          {
+          counter-increment: Serial;
+          content: counter(Serial); /* Display the counter */
+          }
+ </style>
 </head>
 <body>
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
@@ -48,20 +76,45 @@
     <a href="{% url 'student home' %}">Welcome {{ user }}</a>
     <a href="{% url 'student videos' %}">Videos</a>
     <a class="active" href="{% url 'Logout' %}">Signout</a>
-        <a href="#" style="float:right;">About Us</a>
+    <a href="#" style="float:right;">About Us</a>
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
 <center>
-<form action='{%url "Student Results View"%}' method="GET" autocomplete="off">
-    <ol>
-        {% for results in result %}
-        <label><b>NAME:</b></label>{{ results.student_name }} <br><br>
-        <label><b>ID:</b></label>{{ results.student_id }}<br><br>
-        <label><b>SCORE:</b></label>{{ results.score }}<br><br>
-        <label><b>REMARK:</b></label>{{ results.remark }}<br><br>
-        {% endfor %}
-    </ol>
-</form>
+    <form action='{%url "Student Results View"%}' method="GET" autocomplete="off">
+<!--        <ol>-->
+<!--            {% for results in result %}-->
+<!--            {% for result in results.values %}-->
+<!--            <label><b>NAME:</b></label>{{ result.student_name }} <br><br>-->
+<!--            <label><b>ID:</b></label>{{ result.student_id }}<br><br>-->
+<!--            <label><b>SCORE:</b></label>{{ result.score }}<br><br>-->
+<!--            <label><b>REMARK:</b></label>{{ result.remark }}<br><br>-->
+<!--            {% endfor %}-->
+<!--            {% endfor %}-->
+<!--        </ol>-->
+        <h1>Student results</h1>
+        <table>
+            {% for results in result %}
+            <tr>
+                <th>S NO</th>
+                <th>STUDENT NAME</th>
+                <th>STUDENT ID</th>
+                <th>SCORE</th>
+                <th>REMARK</th>
+                <th>EXAM DATE</th>
+            </tr>
+            {% for result in results.values %}
+            <tr>
+                <td>{{ "" }}</td>
+                <td>{{ result.student_name }}</td>
+                <td>{{ result.student_id }}</td>
+                <td>{{ result.score }}</td>
+                <td>{{ result.remark }}</td>
+                <td>{{ result.test_date }}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </table>
+    </form>
 </center>
 </body>
 </html>

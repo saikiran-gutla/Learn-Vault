@@ -49,7 +49,7 @@
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
     <a href="{% url 'student home' %}">Welcome {{ user }}</a>
-    <a href="{% url 'student results' %}">My Results</a>
+    <a href="{% url 'Student Results View' %}">Check Results</a>
     <a class="active" href="{% url 'Logout' %}">Signout</a>
     <a href="#" style="float:right;">About Us</a>
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
@@ -57,16 +57,23 @@
 <center>
     <div>
         <h3>Related Videos</h3>
-        <a href="https://www.youtube.com/embed/xUFo94TXwqc">Transitive and Intransitive Verbs</a><br>
-        <a href="https://www.youtube.com/embed/NDLBWf7UfIM">Infinite and Non Infinite Verbs</a><br>
-        <a href="https://www.youtube.com/embed/-a80_xFsh9w">Phrases v/s Clauses</a><br>
-        <a href="https://www.youtube.com/embed/8kUyDtk0Yjw">Regular and Irregular Verbs</a><br>
-
-        <!--    <iframe width="520" height="415" src="https://www.youtube.com/embed/xUFo94TXwqc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
-        <!--    <iframe width="520" height="415" src="https://www.youtube.com/embed/NDLBWf7UfIM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
-        <!--    <iframe width="520" height="415" src="https://www.youtube.com/embed/-a80_xFsh9w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
-        <!--    <iframe width="520" height="415" src="https://www.youtube.com/embed/8kUyDtk0Yjw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+        <form action='{%url "display videos"%}' method="GET" autocomplete="off">
+            {{ urls }}
+        <video width='400' controls>
+    <source src='{{ urls }}' type='video/mp4'>
+ <!--           {{ MEDIA_URL }}
+            {{ videofile }}
+    Your browser does not support the video tag.-->
+</video>
+        </form>
     </div>
+<br><br>
+    <a href="https://www.google.com/">Exit</a>
+<script>
+    'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
+</script>
+<script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+
 </center>
 </body>
 </html>

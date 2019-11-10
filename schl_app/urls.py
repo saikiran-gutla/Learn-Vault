@@ -12,7 +12,7 @@ from schl_app.views import student_register, \
     Student_Profile, \
     Teacher_Profile, contact_us, \
     student_profile_update, \
-    teacher_profile_update, student_results, Teac_contact, Logout
+    teacher_profile_update, student_results, Teac_contact, Logout, post_video, get_videos
 
 urlpatterns = [
     url(r'^stu_register/', student_register, name='student register'),
@@ -34,5 +34,7 @@ urlpatterns = [
     url(r'^tcontact_us/', Teac_contact, name='TContact Us'),
     url(r'^stu_profile_update/', student_profile_update, name='student profile update'),
     url(r'^teacher_profile_update/', teacher_profile_update, name='teacher profile update'),
+    url(r'^upload_video/', post_video, name='upload video'),
+    url(r'^student_videos_view/', get_videos, name='display videos'),
     url(r'^logout/', Logout, name='Logout')
 ]

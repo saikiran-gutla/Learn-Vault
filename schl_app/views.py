@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect, render_to_response
+import json
+import random
+from datetime import date
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.template import RequestContext
+from django.forms.models import model_to_dict
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_protect
 
 from schl_app.models import StudentDetails, \
     TeacherDetails, \
-    TestData
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, HttpResponseRedirect
+    TestData, Video
 from schl_app.questions import questions_list
-import random
-from django.contrib import messages
-from django.views.decorators.csrf import ensure_csrf_cookie
-import json
-from datetime import datetime, date
-import ast
-from django.forms.models import model_to_dict
-from django.views.decorators.csrf import csrf_protect
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from .forms import VideoForm
+from django.conf import settings
 
 
 def home_page(request):
@@ -31,75 +29,79 @@ def home_page(request):
 def student_register(request):
     context = {}
     stud_id, tech_id = gen_rand_id()
-    if request.method == "POST":
-        first_name, last_name, user_email, password, student_DOB, \
-        stu_father_name, mobile_no, gender, standard = (request.POST['first_name'],
-                                                        request.POST['last_name'],
-                                                        request.POST['user_email'],
-                                                        request.POST['password'],
-                                                        request.POST['student_DOB'],
-                                                        request.POST['stu_father_name'],
-                                                        request.POST['mobile_no'],
-                                                        request.POST['gender'],
-                                                        request.POST['standard'])
-        user_name = first_name + last_name
-        stu_profile = User.objects.create_user(username=user_name,
-                                               email=user_email,
-                                               first_name=first_name,
-                                               last_name=last_name,
-                                               password=password)
-        stu_profile = StudentDetails.objects.create(student_name=stu_profile,
-                                                    mail_id=user_email, student_password=password,
-                                                    student_DOB=student_DOB, student_id=stud_id,
-                                                    standard=standard, stu_father_name=stu_father_name,
-                                                    gender=gender, mobile_no=mobile_no)
-        context = {'student': stu_profile}
-        msg = user_name + " created successfully with ID : " + stud_id + "\nLogin into your Student account from Login Page"
-        messages.success(request, msg)
-        # return render(request, 'student_login.html', context)
-        return render(request, 'index.html', context)
-    # return redirect('home page')
-    else:
-        return render(request, 'student_register.html', context)
+    try:
+        if request.method == "POST":
+            first_name, last_name, user_email, password, student_DOB, \
+            stu_father_name, mobile_no, gender, standard = (request.POST['first_name'],
+                                                            request.POST['last_name'],
+                                                            request.POST['user_email'],
+                                                            request.POST['password'],
+                                                            request.POST['student_DOB'],
+                                                            request.POST['stu_father_name'],
+                                                            request.POST['mobile_no'],
+                                                            request.POST['gender'],
+                                                            request.POST['standard'])
+            user_name = first_name + last_name
+            stu_profile = User.objects.create_user(username=user_name,
+                                                   email=user_email,
+                                                   first_name=first_name,
+                                                   last_name=last_name,
+                                                   password=password)
+            stu_profile = StudentDetails.objects.create(student_name=stu_profile,
+                                                        mail_id=user_email, student_password=password,
+                                                        student_DOB=student_DOB, student_id=stud_id,
+                                                        standard=standard, stu_father_name=stu_father_name,
+                                                        gender=gender, mobile_no=mobile_no)
+            context = {'student': stu_profile}
+            msg = user_name + " created successfully with ID : " + stud_id + "\nLogin into your Student account from Login Page"
+            messages.success(request, msg)
+            return render(request, 'index.html', context)
+        else:
+            return render(request, 'student_register.html', context)
+    except:
+        return render(request, 'student_register.html',
+                      messages.success(request, "Entered Email Already Exist..Try with another Email"))
 
 
 @csrf_protect
 def teacher_register(request):
     context = {}
     stud_id, tech_id = gen_rand_id()
-    if request.method == "POST":
-        first_name, last_name, user_email, password, mobile_no, gender, teacher_DOB, teacher_father_name = (
-            request.POST['first_name'],
-            request.POST['last_name'],
-            request.POST['user_email'],
-            request.POST['password'],
-            request.POST['mobile_no'],
-            request.POST['gender'],
-            request.POST['teacher_DOB'],
-            request.POST['teacher_father_name'])
-        user_name = first_name + last_name
-        teacher_profile = User.objects.create_user(username=user_name,
-                                                   email=user_email,
-                                                   first_name=first_name,
-                                                   last_name=last_name,
-                                                   password=password,
-                                                   is_staff=True)
-        teacher_profile = TeacherDetails.objects.create(teacher_name=teacher_profile,
-                                                        teacher_id=tech_id,
-                                                        gender=gender,
-                                                        mobile_no=mobile_no,
-                                                        teacher_mail_id=user_email,
-                                                        teacher_password=password,
-                                                        tec_father_name=teacher_father_name,
-                                                        teacher_DOB=teacher_DOB)
-        context = {'teacher': teacher_profile}
-        msg = user_name + " created successfully with ID : " + tech_id + '\nLogin into your Teacher account from Login Page'
-        messages.success(request, msg)
-        # return redirect('home page')
-        return render(request, 'index.html', context)
-    #   return render(request, 'teacher_login.html', context)
-    else:
-        return render(request, 'teacher_register.html', context)
+    try:
+        if request.method == "POST":
+            first_name, last_name, user_email, password, mobile_no, gender, teacher_DOB, teacher_father_name = (
+                request.POST['first_name'],
+                request.POST['last_name'],
+                request.POST['user_email'],
+                request.POST['password'],
+                request.POST['mobile_no'],
+                request.POST['gender'],
+                request.POST['teacher_DOB'],
+                request.POST['teacher_father_name'])
+            user_name = first_name + last_name
+            teacher_profile = User.objects.create_user(username=user_name,
+                                                       email=user_email,
+                                                       first_name=first_name,
+                                                       last_name=last_name,
+                                                       password=password,
+                                                       is_staff=True)
+            teacher_profile = TeacherDetails.objects.create(teacher_name=teacher_profile,
+                                                            teacher_id=tech_id,
+                                                            gender=gender,
+                                                            mobile_no=mobile_no,
+                                                            teacher_mail_id=user_email,
+                                                            teacher_password=password,
+                                                            tec_father_name=teacher_father_name,
+                                                            teacher_DOB=teacher_DOB)
+            context = {'teacher': teacher_profile}
+            msg = user_name + " created successfully with ID : " + tech_id + '\nLogin into your Teacher account from Login Page'
+            messages.success(request, msg)
+            return render(request, 'index.html', context)
+        else:
+            return render(request, 'teacher_register.html', context)
+    except:
+        return render(request, 'teacher_register.html',
+                      messages.success(request, "Entered Email Already Exist..Try with another Email"))
 
 
 def student_login_view(request):
@@ -112,13 +114,13 @@ def student_home(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            user_name = request.user.first_name + ' ' + request.user.last_name
+            user_name = request.user
             return render(request, 'student_home.html', {'user': user_name})
         else:
             messages.error(request, 'Invalid Login Credentials')
             return redirect('home page')
     else:
-        user_name = request.user.first_name + ' ' + request.user.last_name
+        user_name = request.user
         return render(request, 'student_home.html', {'user': user_name})
 
 
@@ -198,31 +200,61 @@ def StudentResultsView(request):
     if request.method == "GET":
         results = {}
         results_list = []
-        correct_ans = 0
-        wrong_ans = 0
+        correct_ans = {}
         qn_list = questions_list
-        if request.user.is_staff != True:
-            testdata_obj = TestData.objects.filter(Student_Name=request.user).latest('id')
-            test_data = model_to_dict(testdata_obj)
-            testdata_json = json.loads(test_data['Test_Data'])
-            for testdata in testdata_json:
-                for qstn in qn_list:
-                    if testdata['question'] == qstn['question'] and testdata['ans'] == qstn['answer']:
-                        correct_ans += 1
-                    elif testdata['question'] == qstn['question'] and testdata['ans'] != qstn['answer']:
-                        wrong_ans += 1
+        if request.user.is_active is True and request.user.is_staff is not True:
+            try:
+                testdata_obj = TestData.objects.filter(Student_Name__username=request.user).order_by('-id')
+                for test_data in testdata_obj:
+                    student_details = StudentDetails.objects.get(student_name__username=test_data.Student_Name.username)
+                    results[test_data.id] = {
+                        'student_name': test_data.Student_Name.username,
+                        'student_id': student_details.student_id,
+                        'score': 0,
+                        'class': student_details.standard,
+                        'test_date': str(test_data.Test_Date)
+                    }
+                    correct_ans[test_data.id] = {'score': 0}
+                    testdata_json = json.loads(test_data.Test_Data)
+                    for testdata in testdata_json:
+                        print(testdata['hint'])
+                        for qstn in qn_list:
+                            if testdata['question'] == qstn['question'] and testdata['ans'] == qstn['answer'] and \
+                                    testdata['hint'] == "checked":
+                                results[test_data.id]['score'] += 4
+                                correct_ans[test_data.id]['score'] += 4
+                            elif testdata['question'] == qstn['question'] and testdata['ans'] == qstn['answer'] and \
+                                    testdata['hint'] == "unchecked":
+                                results[test_data.id]['score'] += 5
+                                correct_ans[test_data.id]['score'] += 5
+                            elif testdata['question'] == qstn['question'] and testdata['ans'] != qstn['answer'] and \
+                                    testdata['hint'] == "checked":
+                                results[test_data.id]['score'] -= 1
+                                correct_ans[test_data.id]['score'] -= 1
+                            elif testdata['question'] == qstn['question'] and testdata['ans'] != qstn['answer'] and \
+                                    testdata['hint'] == "unchecked":
+                                results[test_data.id]['score'] += 0
+                                correct_ans[test_data.id]['score'] += 0
+                        # if testdata['hint'] == "unchecked":
+                        #     results[test_data.id]['score'] += 5
+                        #     correct_ans[test_data.id]['score'] += 5
+                        # elif testdata['hint'] == "checked":
+                        #     results[test_data.id]['score'] -= 1
+                        #     correct_ans[test_data.id]['score'] -= 1
 
-        student_details = StudentDetails.objects.get(student_name__username=request.user)
-        results = {
-            'student_name': student_details.student_name.username,
-            'student_id': student_details.student_id,
-            'score': correct_ans
-        }
-        if correct_ans >= 2:
-            results.update({'remark': "PASS"})
-        else:
-            results.update({'remark': "FAIL"})
-        results_list.append(results)
+                    for scr in correct_ans.values():
+                        if scr['score'] >= 10:
+                            results[test_data.id].update({'remark': "PASS"})
+                        elif scr['score'] == 0:
+                            results[test_data.id].update({'remark': "FAIL"})
+                        else:
+                            results[test_data.id].update({'remark': "FAIL"})
+
+                results_list.append(results)
+            except:
+                results_list.append({
+                    "No_Data": "No Results Found"
+                })
         return render(request, 'student_results.html', {'result': results_list})
 
 
@@ -266,7 +298,7 @@ def TeacherResultsView(request):
                 results_list.append(results)
             except:
                 results_list.append({
-                    "No_Data":"No Results Found"
+                    "No_Data": "No Results Found"
                 })
         return render(request, 'teacher_results_view.html', {'result': results_list})
 
@@ -358,3 +390,30 @@ def Teac_contact(request):
 def Logout(request):
     logout(request)
     return redirect('/')
+
+
+@login_required
+def post_video(request):
+    lastvideo = Video.objects.last()
+    videofile = lastvideo.videofile
+
+    form = VideoForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form.save()
+
+    context = {'videofile': videofile,
+               'form': form
+               }
+
+    return render(request, 'video_upload.html', context)
+
+
+@login_required
+def get_videos(request):
+    video_url = []
+    if request.method == "GET":
+        videos_qs = Video.objects.all()
+        for videos in videos_qs:
+            video_url.append(videos.videofile)
+            print(video_url)
+        return render(request, 'student_videos.html', {'urls': video_url})

@@ -38,6 +38,7 @@
               margin-bottom:5px;
             }
 
+
     </style>
 </head>
 <center>
@@ -45,18 +46,24 @@
     <div class="navbar">
         <a class="active" href="{% url 'home page' %}">Home</a>
         <div class="dropdown">
-          <button class="dropbtn" onclick="login()">Login
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-content" id="myDropdown">
-            <a href="{% url 'teacher login' %}">Teacher</a>
-            <a href="{% url 'student login' %}">Student</a>
-          </div>
+            <button class="dropbtn" onclick="login()">Login
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content" id="myDropdown">
+                <a href="{% url 'teacher login' %}">Teacher</a>
+                <a href="{% url 'student login' %}">Student</a>
+            </div>
         </div>
     </div>
     <h2>Teacher Register</h2>
-    <form autocomplete="off" action="{%url 'teacher register'%}" method="POST" onsubmit="return validate_teacher_password(this)">
+    <form autocomplete="off" action="{%url 'teacher register'%}" method="POST"
+          onsubmit="return validate_teacher_password(this)">
         {% csrf_token %}
+        {% if messages %}
+        {% for message in messages %}
+        <p style="color: #fc0000;">{% if message.tags %} {% endif %} {{ message }}</p>
+        {% endfor %}
+        {% endif %}
         <div class="inputBox">
             <input name="first_name" required class="textbox" placeholder="Enter First Name">
         </div>
@@ -78,16 +85,19 @@
             <input type="radio" name="gender" value="female" required> Female<br>
         </div>
         <div class="inputBox">
-            <input type="Password" name="password" id="teacher_password" required placeholder="Enter Password" class="textbox pattern="
+            <input type="Password" name="password" id="teacher_password" required placeholder="Enter Password"
+                   class="textbox pattern="
                    pattern=".{3,}" title="Please Enter Minimum 6 Characters">
             <p name="msg" id="msg"></p>
         </div>
         <div class="inputBox">
-            <input type="Password" name="password2" id="teacher_confirm_password" required placeholder="Enter Confirm Password" class="textbox"
+            <input type="Password" name="password2" id="teacher_confirm_password" required
+                   placeholder="Enter Confirm Password" class="textbox"
                    pattern=".{3,}" title="Please Enter Minimum 6 Characters">
         </div>
         <div class="cal">
-            <input type="date1" id="date" data-date="" data-date-format="YYYY MMMM DD" name='teacher_DOB' value=""  class="textbox" required>
+            <input type="date1" id="date" data-date="" data-date-format="YYYY MMMM DD" name='teacher_DOB' value=""
+                   class="textbox" required>
         </div>
         <input type="submit" class="submit" value="Register">
     </form>
@@ -174,5 +184,6 @@ window.onclick = function(e) {
     }
   }
 }
-        </script>
+
+</script>
 </html>

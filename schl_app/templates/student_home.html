@@ -47,7 +47,7 @@
     {% csrf_token %}
     <a href="#">Welcome {{ user }}</a>
     <a href="{% url 'Student Results View' %}">Check Results</a>
-    <a href="{% url 'student videos' %}">Tutorials for Test</a>
+    <a href="{% url 'display videos' %}">Tutorials for Test</a>
     <a href="{% url 'Student Profile View' %}">Edit Profile</a>
     <a class="active" href="{% url 'Logout' %}">Logout</a>
     <a href="#" style="float:right;">About Us</a>
