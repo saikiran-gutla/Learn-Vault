@@ -10,6 +10,8 @@ python3 -m venv your_env_name
 
 pip install -r requirements.txt
 
+python manage.py makemigrations
+
 python manage.py migrate
 
 python manage.py runserver
