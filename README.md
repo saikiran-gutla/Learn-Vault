@@ -14,7 +14,11 @@ python manage.py makemigrations
 
 python manage.py migrate
 
-python manage.py runserver
+python manage.py createsuperuser
 
 username:- schl_mngt
 password:- schl123
+
+python manage.py runserver
+
+
