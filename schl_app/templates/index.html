@@ -53,7 +53,7 @@
     {% endif %}
     <a class="active" href="{% url 'Logout' %}">Signout</a>
     {% else %}
-    <a href="#home">Home</a>
+    <a href="{% url 'home page' %}">Home</a>
     <div class="dropdown">
         <button class="dropbtn" onclick="login()">Login
             <i class="fa fa-caret-down"></i>
@@ -223,6 +223,7 @@
 </center>
 </body>
 <script type="text/javascript">
+
 <!--WHEN USER CLICKS ON REGISTER BUTTON IN STUDENT LOGIN PAGE-->
 function student_register_click() {
   var registration = document.getElementById("registration");
