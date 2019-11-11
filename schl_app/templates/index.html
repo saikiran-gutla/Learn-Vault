@@ -106,7 +106,7 @@
         <!--    TEACHER LOGIN FORM      -->
         <div id="teacher_login_form" style="display:none;">
             <h2>Teacher Login</h2>
-            <form action='{%url "teacher home"%}' method='POST' autocomplete="off">
+            <form action='{%url "student home"%}' method='POST' autocomplete="off">
                 {% csrf_token %}
                 <div class="inputBox">
                     <input name="username" required="" class="textbox" placeholder="Enter Your Username / Email">

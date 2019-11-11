@@ -59,7 +59,7 @@ def student_register(request):
         else:
             return render(request, 'student_register.html', context)
     except:
-        return render(request, 'student_register.html',
+        return render(request, 'index.html',
                       messages.success(request, "Entered Email Already Exist..Try with another Email"))
 
 
@@ -100,8 +100,8 @@ def teacher_register(request):
         else:
             return render(request, 'teacher_register.html', context)
     except:
-        return render(request, 'teacher_register.html',
-                      messages.success(request, "Entered Email Already Exist..Try with another Email"))
+        return render(request, 'index.html',
+                      messages.success(request, "Entered Email Already Exist..Try to register again with another Email"))
 
 
 def student_login_view(request):
