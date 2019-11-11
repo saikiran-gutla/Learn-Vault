@@ -54,12 +54,6 @@
 </div>
 	<h1>Teacher Portal</h1>
 <div class="usr_display borderXwidth">
-{%if user.is_superuser %}
-	<h1>Welcome {{ user }}</h1>	
-{%else%}
-	<h1>Welcome {{ user }}</h1>	 
-{%endif%}
-				
 <br><br><a href="{%url 'home page'%}">Logout</a>
     <a href="https://www.google.com/">Exit</a>
 </div>

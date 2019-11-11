@@ -41,6 +41,7 @@
             }
 
 
+
     </style>
 </head>
 <body>
@@ -125,7 +126,7 @@
     <div class="row">
         <input type="button" class="submit" id="edit" value="Edit"
                onclick="enableTextBoxes()">
-        <button type="submit" class="submit" id="btn1" disabled>Update</button>
+        <button type="submit" class="submit" id="btn1" onClick="refreshPage()" disabled>Update</button>
         <span><input type="button" class="submit" id="cancel" value="cancel"
                      onclick="disableTextBoxes()" style="display:none;"></span>
     </div>
@@ -140,6 +141,10 @@
 </script>
 <script>
 <!--          ENABLE THE TEXT BOXES ON EDIT BUTTON CLICK          -->
+function refreshPage(){
+    window.location.reload();
+}
+
 function enableTextBoxes() {
     var cells = document.getElementsByClassName("textbox");
     for (var i = 0; i < cells.length; i++) {
@@ -158,6 +163,7 @@ function disableTextBoxes() {
     }
     document.getElementById('cancel').style.display = "none";
     }
+
 
 
 
@@ -208,7 +214,9 @@ function disableTextBoxes() {
             });
             alert('Profile Updated');
             disableTextBoxes();
+            window.location.href = "http://127.0.0.1:8000/api/student_profile/";
         })
+
 
 
 

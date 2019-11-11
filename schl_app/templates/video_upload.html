@@ -36,31 +36,26 @@
               border-radius:10px;
               margin-bottom:5px;
             }
+
     </style>
 </head>
 <body>
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
     {% csrf_token %}
-    <a href="#">Welcome {{ user }}</a>
+    <a href="{% url 'teacher home' %}">Welcome {{ user }}</a>
     <a href="{% url 'Teacher Results View' %}">Student Results</a>
     <a href="{% url 'Teacher Profile View' %}">Edit Profile</a>
     <a class="active" href="{% url 'Logout' %}">Signout</a>
     <a href="#" style="float:right;">About Us</a>
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
-	<h1>Teacher Portal</h1>
 <div class="usr_display borderXwidth">
-{%if user.is_superuser %}
-	<h1>Welcome {{ user }} superuser</h1>
-{%else%}
-	<h1>Welcome {{ user }} non superuser</h1>
-{%endif%}
 </div>
 <form enctype="multipart/form-data" method="POST" action="">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Upload"/>
+    <input type="submit" value="Upload" class="submit"/>
 </form>
 
 <br><br>
@@ -71,10 +66,11 @@
 <br><br>
 
 <br><br><a href="{%url 'home page'%}">Logout</a>
-    <a href="https://www.google.com/">Exit</a>
+<a href="https://www.google.com/">Exit</a>
 </body>
 <script>
     'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
+
 </script>
 <script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
 </html>
