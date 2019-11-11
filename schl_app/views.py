@@ -115,13 +115,13 @@ def student_home(request):
         if user is not None:
             login(request, user)
             user_name = request.user
-            return render(request, 'student_home.html', {'user': user_name})
+            return render(request, 'home_page.html', {'user': user_name})
         else:
             messages.error(request, 'Invalid Login Credentials')
             return redirect('home page')
     else:
         user_name = request.user
-        return render(request, 'student_home.html', {'user': user_name})
+        return render(request, 'home_page.html', {'user': user_name})
 
 
 def teacher_login_view(request):
@@ -135,13 +135,13 @@ def teacher_home(request):
         if user is not None:
             login(request, user)
             user_name = request.user
-            return render(request, 'teacher_home.html', {'user': user_name})
+            return render(request, 'home_page.html', {'user': user_name})
         else:
             messages.error(request, 'Invalid Login Credentials')
             return redirect('home page')
     else:
         user_name = request.user
-        return render(request, 'teacher_home.html', {'user': user_name})
+        return render(request, 'home_page.html', {'user': user_name})
 
 
 def gen_rand_id():

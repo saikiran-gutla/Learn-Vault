@@ -47,13 +47,15 @@
     <!--    LOGIN DESIGN -->
     {% if user.is_authenticated %}
     {% if user.is_staff %}
-    <a href="{% url 'teacher home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
     {% else %}
-    <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
     {% endif %}
     <a class="active" href="{% url 'Logout' %}">Signout</a>
+    {% endif %}
+    {% if user.is_authenticated %}
     {% else %}
-    <a href="{% url 'home page' %}">Home</a>
+    <a href="{% url 'index page' %}">Home</a>
     <div class="dropdown">
         <button class="dropbtn" onclick="login()">Login
             <i class="fa fa-caret-down"></i>
@@ -63,7 +65,6 @@
             <a id="register_form">Register</a>
         </div>
     </div>
-
     {% endif %}
 
     <a href="#" style="float:right;">About Us</a>
@@ -87,7 +88,7 @@
         <div id="student_login_form" style="display:none;">
 
             <h2>Student Login</h2>
-            <form action='{%url "student home"%}' method='POST' autocomplete="off">
+            <form action='{%url "home page"%}' method='POST' autocomplete="off">
                 {% csrf_token %}
                 <div class="inputBox">
                     <input name="username" required="" class="textbox" placeholder="Enter Your Username / Email">
@@ -106,7 +107,7 @@
         <!--    TEACHER LOGIN FORM      -->
         <div id="teacher_login_form" style="display:none;">
             <h2>Teacher Login</h2>
-            <form action='{%url "student home"%}' method='POST' autocomplete="off">
+            <form action='{%url "home page"%}' method='POST' autocomplete="off">
                 {% csrf_token %}
                 <div class="inputBox">
                     <input name="username" required="" class="textbox" placeholder="Enter Your Username / Email">

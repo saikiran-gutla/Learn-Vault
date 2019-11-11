@@ -49,13 +49,23 @@
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
     {% if user.is_authenticated %}
-    <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    {% else %}
+    <a class="active" href="{% url 'index page' %}">Home</a>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    {% if user.is_staff %}
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
+    <a href="{% url 'Teacher Results View' %}">Student Results</a>
+    <a href="{% url 'upload video' %}">Upload Videos</a>
+    <a href="{% url 'Teacher Profile View' %}">Edit Profile</a>
+    {% else %}
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
     <a href="{% url 'Student Results View' %}">Check Results</a>
     <a href="{% url 'student videos' %}">Tutorials for Test</a>
     <a href="{% url 'Student Profile View' %}">Edit Profile</a>
     <a class="active" href="{% url 'Logout' %}">Signout</a>
-    {% else %}
-    <a class="active" href="{% url 'home page' %}">Home</a>
+    {% endif %}
     {% endif %}
     <a href="#" style="float:right;">About Us</a>
 </div>

@@ -48,7 +48,7 @@
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
     {% csrf_token %}
-    <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
     <a href="{% url 'Student Results View' %}">Check Results</a>
     <a href="{% url 'student videos' %}">Tutorials for Test</a>
     <a href="{% url 'Student Profile View' %}">Edit Profile</a>

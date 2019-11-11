@@ -45,7 +45,7 @@
         <a class="active" href="{% url 'home page' %}">Home</a>
     </div>
     <h2>Profile Created with following Data Given</h2>
-    <form action='{%url "student home"%}' method='POST' autocomplete="off">
+    <form action='{%url "home page"%}' method='POST' autocomplete="off">
         {% csrf_token %}
         {% if messages %}
         {% for message in messages %}

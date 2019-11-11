@@ -40,6 +40,7 @@
 
 
 
+
     </style>
 </head>
 <body>
@@ -48,25 +49,28 @@
     {% csrf_token %}
     {% if user.is_authenticated %}
     {% if user.is_staff %}
-    <a href="#">Welcome {{ user }}</a>
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
     <a href="{% url 'Teacher Results View' %}">Student Results</a>
     <a href="{% url 'upload video' %}">Upload Videos</a>
     <a href="{% url 'Teacher Profile View' %}">Edit Profile</a>
     {% else %}
-    <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
     <a href="{% url 'Student Results View' %}">Check Results</a>
     <a href="{% url 'display videos' %}">Tutorials for Test</a>
     <a href="{% url 'Student Profile View' %}">Edit Profile</a>
     {% endif %}
-    <a class="active" href="{% url 'Logout' %}">Logout</a>
+    <a class="active" href="{% url 'Logout' %}">Signout</a>
+    {% endif %}
     <a href="#" style="float:right;">About Us</a>
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
-    {% endif %}
 </div>
-<h1>Student Portal</h1>
+
+{% if user.is_authenticated %}
+{% if user.is_staff %}
+{% else %}
 <a href="{% url 'test questions' %}">Start test</a>
-</div>
-<a href="https://www.google.com/">Exit</a>
+{% endif %}
+{% endif %}
 </body>
 
 </html>
