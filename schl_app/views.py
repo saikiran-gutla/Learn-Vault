@@ -267,6 +267,8 @@ def TeacherResultsView(request):
 				print("No Data")
 		return render(request, 'teacher_results_view.html', {'result': results_list})
 
+
+
 @login_required
 def Student_Profile(request):
 	if request.method == 'GET':
