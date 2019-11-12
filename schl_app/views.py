@@ -380,9 +380,13 @@ def Logout(request):
 @login_required
 def post_video(request):
     lastvideo = Video.objects.last()
-    videofile = lastvideo.videofile
+    if lastvideo:
+    	videofile = lastvideo.videofile
+    else:
+    	videofile = None
 
     form = VideoForm(request.POST or None, request.FILES or None)
+
     if form.is_valid():
         form.save()
 
@@ -399,7 +403,7 @@ def get_videos(request):
     if request.method == "GET":
         videos_qs = Video.objects.all()
         for videos in videos_qs:
-            video_url.append(videos.videofile)
+            video_url.append(settings.ROOT_URL+videos.videofile.url)
             print(video_url)
         return render(request, 'student_videos.html', {'urls': video_url})
 

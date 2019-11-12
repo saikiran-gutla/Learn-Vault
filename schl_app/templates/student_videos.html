@@ -60,13 +60,17 @@
     <div>
         <h3>Related Videos</h3>
         <form action='{%url "display videos"%}' method="GET" autocomplete="off">
-            {{ urls }}
-            <video width='400' controls>
-                <source src='{{ urls }}' type='video/mp4'>
+            <!-- {{ urls }} -->
+           
+              {% for url in urls %}
+                 <video width='400' controls>
+                   <source src='{{ url }}' type='video/mp4'>
+                </video>
+              {% endfor %}
                 <!--           {{ MEDIA_URL }}
                            {{ videofile }}
                    Your browser does not support the video tag.-->
-            </video>
+            
         </form>
     </div>
     <br><br>
