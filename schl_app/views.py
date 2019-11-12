@@ -221,8 +221,6 @@ def StudentResultsView(request):
                     correct_an_total = 0
                     hint_count = 0
                     for testdata in testdata_json:
-                        print(f"TEST DATA : {testdata['hint']}")
-                        print(qn_list)
                         if testdata['hint'] == "checked":
                             hint_count += 1
                         for qstn in qn_list:
@@ -235,9 +233,9 @@ def StudentResultsView(request):
                     results[test_data.id]['score'] = results_total - hint_count
                     correct_ans[test_data.id]['score'] = correct_an_total - hint_count
                     for scr in correct_ans.values():
-                        if scr['score'] >= 10:
+                        if scr['score'] >= 15:
                             results[test_data.id].update({'remark': "PASS"})
-                        elif scr['score'] < 10:
+                        elif scr['score'] < 15:
                             results[test_data.id].update({'remark': "FAIL"})
                         else:
                             results[test_data.id].update({'remark': "FAIL"})
