@@ -35,9 +35,6 @@
               border-radius:10px;
               margin-bottom:5px;
             }
-
-
-
     </style>
 </head>
 <center>
@@ -47,13 +44,12 @@
     <div class="navbar">
   <a class="active" href="{% url 'home page' %}">Home</a>
 <!--    LOGIN DESIGN -->
-
-   <a href="{% url 'teacher login' %}">Teacher Login</a>
+<!--   <a href="{% url 'teacher login' %}">Teacher Login</a>-->
 </div>
     <br>
     <br>
     <h3>Student Login</h3>
-    <form action='{%url "student home"%}' method='POST' autocomplete="off">
+    <form action='{%url "home page"%}' method='POST' autocomplete="off">
         {% csrf_token %}
         {% if messages %}
         {% for message in messages %}

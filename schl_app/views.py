@@ -59,7 +59,7 @@ def student_register(request):
         else:
             return render(request, 'student_register.html', context)
     except:
-        return render(request, 'student_register.html',
+        return render(request, 'index.html',
                       messages.success(request, "Entered Email Already Exist..Try with another Email"))
 
 
@@ -100,8 +100,9 @@ def teacher_register(request):
         else:
             return render(request, 'teacher_register.html', context)
     except:
-        return render(request, 'teacher_register.html',
-                      messages.success(request, "Entered Email Already Exist..Try with another Email"))
+        return render(request, 'index.html',
+                      messages.success(request,
+                                       "Entered Email Already Exist..Try to register again with another Email"))
 
 
 def student_login_view(request):
@@ -115,13 +116,13 @@ def student_home(request):
         if user is not None:
             login(request, user)
             user_name = request.user
-            return render(request, 'student_home.html', {'user': user_name})
+            return render(request, 'home_page.html', {'user': user_name})
         else:
             messages.error(request, 'Invalid Login Credentials')
-            return redirect('home page')
+            return redirect('index page')
     else:
         user_name = request.user
-        return render(request, 'student_home.html', {'user': user_name})
+        return render(request, 'home_page.html', {'user': user_name})
 
 
 def teacher_login_view(request):
@@ -135,13 +136,13 @@ def teacher_home(request):
         if user is not None:
             login(request, user)
             user_name = request.user
-            return render(request, 'teacher_home.html', {'user': user_name})
+            return render(request, 'home_page.html', {'user': user_name})
         else:
             messages.error(request, 'Invalid Login Credentials')
             return redirect('home page')
     else:
         user_name = request.user
-        return render(request, 'teacher_home.html', {'user': user_name})
+        return render(request, 'home_page.html', {'user': user_name})
 
 
 def gen_rand_id():
@@ -216,40 +217,28 @@ def StudentResultsView(request):
                     }
                     correct_ans[test_data.id] = {'score': 0}
                     testdata_json = json.loads(test_data.Test_Data)
+                    results_total = 0
+                    correct_an_total = 0
+                    hint_count = 0
                     for testdata in testdata_json:
-                        print(testdata['hint'])
+                        if testdata['hint'] == "checked":
+                            hint_count += 1
                         for qstn in qn_list:
-                            if testdata['question'] == qstn['question'] and testdata['ans'] == qstn['answer'] and \
-                                    testdata['hint'] == "checked":
-                                results[test_data.id]['score'] += 4
-                                correct_ans[test_data.id]['score'] += 4
-                            elif testdata['question'] == qstn['question'] and testdata['ans'] == qstn['answer'] and \
-                                    testdata['hint'] == "unchecked":
-                                results[test_data.id]['score'] += 5
-                                correct_ans[test_data.id]['score'] += 5
-                            elif testdata['question'] == qstn['question'] and testdata['ans'] != qstn['answer'] and \
-                                    testdata['hint'] == "checked":
-                                results[test_data.id]['score'] -= 1
-                                correct_ans[test_data.id]['score'] -= 1
-                            elif testdata['question'] == qstn['question'] and testdata['ans'] != qstn['answer'] and \
-                                    testdata['hint'] == "unchecked":
-                                results[test_data.id]['score'] += 0
-                                correct_ans[test_data.id]['score'] += 0
-                        # if testdata['hint'] == "unchecked":
-                        #     results[test_data.id]['score'] += 5
-                        #     correct_ans[test_data.id]['score'] += 5
-                        # elif testdata['hint'] == "checked":
-                        #     results[test_data.id]['score'] -= 1
-                        #     correct_ans[test_data.id]['score'] -= 1
-
+                            if testdata['question'] == qstn['question'] and testdata['ans'] == qstn['answer']:
+                                results_total += 5
+                                correct_an_total += 5
+                            elif testdata['question'] == qstn['question'] and testdata['ans'] != qstn['answer']:
+                                results_total += 0
+                                correct_an_total += 0
+                    results[test_data.id]['score'] = results_total - hint_count
+                    correct_ans[test_data.id]['score'] = correct_an_total - hint_count
                     for scr in correct_ans.values():
-                        if scr['score'] >= 10:
+                        if scr['score'] >= 15:
                             results[test_data.id].update({'remark': "PASS"})
-                        elif scr['score'] == 0:
+                        elif scr['score'] < 15:
                             results[test_data.id].update({'remark': "FAIL"})
                         else:
                             results[test_data.id].update({'remark': "FAIL"})
-
                 results_list.append(results)
             except:
                 results_list.append({
@@ -383,10 +372,6 @@ def teacher_profile_update(request):
     return render(request, 'teacher_profile.html', {'teacher': model_to_dict(teacher)})
 
 
-def Teac_contact(request):
-    return render(request, 'tcontact.html', {})
-
-
 def Logout(request):
     logout(request)
     return redirect('/')
@@ -417,3 +402,7 @@ def get_videos(request):
             video_url.append(videos.videofile)
             print(video_url)
         return render(request, 'student_videos.html', {'urls': video_url})
+
+
+def about_us(request):
+    return render(request, 'about_us.html', {})

@@ -49,11 +49,11 @@
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
     {% csrf_token %}
-    <a href="{% url 'teacher home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
     <a href="{% url 'Teacher Results View' %}">Student Results</a>
     <a class="active" href="{% url 'Logout' %}">Signout</a>
-    <a href="#" style="float:right;">About Us</a>
-    <a href="{% url 'TContact Us' %}" style="float:right;">Contact Us</a>
+    <a href="{% url 'About Us' %}" style="float:right;">About Us</a>
+    <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
 <form action='{%url "Teacher Profile View" %}' autocomplete="off" id="techer_editForm">
     {% csrf_token %}

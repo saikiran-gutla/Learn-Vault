@@ -43,11 +43,11 @@
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
     {% csrf_token %}
-    <a href="{% url 'teacher home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
     <a href="{% url 'Teacher Results View' %}">Student Results</a>
     <a href="{% url 'Teacher Profile View' %}">Edit Profile</a>
     <a class="active" href="{% url 'Logout' %}">Signout</a>
-    <a href="#" style="float:right;">About Us</a>
+    <a href="{% url 'About Us' %}" style="float:right;">About Us</a>
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
 <div class="usr_display borderXwidth">
@@ -65,7 +65,6 @@
 </video>
 <br><br>
 
-<br><br><a href="{%url 'home page'%}">Logout</a>
 <a href="https://www.google.com/">Exit</a>
 </body>
 <script>

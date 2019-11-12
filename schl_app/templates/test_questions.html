@@ -49,7 +49,7 @@
 <div class="navbar">
     <a href="{% url 'Logout' %}">Signout</a>
 </div>
-<div style="float:right;">Exam Ends in : <span id="time" style="color: red;">02:00</span> minutes!</div>
+<div style="float:right;">Exam Ends in : <span id="time" style="color: red;">05:00</span> minutes!</div>
 <form action='{%url "Student Results View"%}' autocomplete="off" id="examForm">
     <ol>
         {% for questions in question %}
@@ -84,9 +84,13 @@ function myFunction() {
   var checkBox1 = document.getElementById("q1");
   var checkBox2 = document.getElementById("q2");
   var checkBox3 = document.getElementById("q3");
+  var checkBox4 = document.getElementById("q4");
+  var checkBox5 = document.getElementById("q5");
   var text1 = document.getElementById("l1");
   var text2 = document.getElementById("l2");
   var text3 = document.getElementById("l3");
+  var text4 = document.getElementById("l4");
+  var text5 = document.getElementById("l5");
   if (checkBox1.checked == true){
   document.getElementById("q1").disabled = true;
     text1.style.display = "block";
@@ -98,6 +102,14 @@ function myFunction() {
     if (checkBox3.checked == true){
     document.getElementById("q3").disabled = true;
     text3.style.display = "block";
+  }
+      if (checkBox4.checked == true){
+    document.getElementById("q4").disabled = true;
+    text4.style.display = "block";
+  }
+      if (checkBox5.checked == true){
+    document.getElementById("q5").disabled = true;
+    text5.style.display = "block";
   }
   }
   function preventBack(){window.history.forward();}
@@ -113,10 +125,10 @@ function myFunction() {
 
 <!--  TIMER RELATED CODE GOES HERE -->
 window.onload = function () {
-    var fiveMinutes = 60 * 2,
+    var fiveMinutes = 60 * 5,
     display = document.querySelector('#time');
     startTimer(fiveMinutes, display);
-    setTimeout('exam_timeout()', 122000)
+    setTimeout('exam_timeout()', 302000)
 };
 
 function startTimer(duration, display) {
@@ -175,19 +187,26 @@ function startTimer(duration, display) {
                         hint : ""
                     });
                 }
+                else{
+                        data.push({
+                        question : rawData[i].name,
+                        ans : "",
+                        hint : ""
+                    });
+                }
             }
          <!--            CHECK BOX CODE      -->
              var inputElems = document.getElementsByClassName("hint");
             for (var i=0; i<inputElems.length; i++)
             {
-            if (inputElems[i].type == "checkbox" && inputElems[i].checked == true)
-            {
-              data[i]['hint']="checked";
-           }
-           else
-           {
-              data[i]['hint']="Unchecked";
-           }
+                if (inputElems[i].type == "checkbox" && inputElems[i].checked == true)
+                {
+                  data[i]['hint']="checked";
+               }
+               else
+               {
+                  data[i]['hint']="Unchecked";
+               }
             }
         <!--            CHECK BOX CODE      -->
             console.log('array data', data)

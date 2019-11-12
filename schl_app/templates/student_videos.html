@@ -43,15 +43,17 @@
 
 
 
+
     </style>
 </head>
 <body>
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
-    <a href="{% url 'student home' %}">Welcome {{ user }}</a>
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
+    <a href="{% url 'test questions' %}">Quick test</a>
     <a href="{% url 'Student Results View' %}">Check Results</a>
     <a class="active" href="{% url 'Logout' %}">Signout</a>
-    <a href="#" style="float:right;">About Us</a>
+    <a href="{% url 'About Us' %}" style="float:right;">About Us</a>
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
 <center>
@@ -59,20 +61,21 @@
         <h3>Related Videos</h3>
         <form action='{%url "display videos"%}' method="GET" autocomplete="off">
             {{ urls }}
-        <video width='400' controls>
-    <source src='{{ urls }}' type='video/mp4'>
- <!--           {{ MEDIA_URL }}
-            {{ videofile }}
-    Your browser does not support the video tag.-->
-</video>
+            <video width='400' controls>
+                <source src='{{ urls }}' type='video/mp4'>
+                <!--           {{ MEDIA_URL }}
+                           {{ videofile }}
+                   Your browser does not support the video tag.-->
+            </video>
         </form>
     </div>
-<br><br>
+    <br><br>
     <a href="https://www.google.com/">Exit</a>
-<script>
+    <script>
     'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
-</script>
-<script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+
+    </script>
+    <script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
 
 </center>
 </body>

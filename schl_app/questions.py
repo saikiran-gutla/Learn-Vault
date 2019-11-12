@@ -22,5 +22,21 @@ questions_list = [
         'answer': 'random.Shuffle(L)',
         'choices': ['L.shuffle()', 'random.shufflelist(L)', 'shuffle(L)', 'random.Shuffle(L)'],
         'hint': 'third question hint'
+    },
+    {
+        'q_no': 'q4',
+        'lno': 'l4',
+        'question': "What is the HTML tag under which one can write the JavaScript code?",
+        'answer': '<script>',
+        'choices': ['<javascript>', '<scripted>', '<script>', '<js>'],
+        'hint': 'Fourth question hint'
+    },
+    {
+        'q_no': 'q5',
+        'lno': 'l5',
+        'question': 'HTML is?',
+        'answer': 'MarkUp Language',
+        'choices': ['Scripting Language', 'Programming Language', 'MarkUp Language', 'None of the Above'],
+        'hint': 'fifth question hint'
     }
 ]

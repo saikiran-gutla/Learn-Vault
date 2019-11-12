@@ -40,21 +40,43 @@
               margin-bottom:5px;
             }
 
+
+
+
+
+
+
     </style>
 </head>
 <body>
 <img src="{% static 'Logo.png' %}" style="width:200px;height:100px;">
 <div class="navbar">
-  <a class="active" href="#home">Home</a>
-  <a href="{% url 'teacher login' %}">Teacher Login</a>
-  <a href="{% url 'student login' %}">Student Login</a>
+    {% if user.is_authenticated %}
+    {% else %}
+    <a class="active" href="{% url 'index page' %}">Home</a>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    {% if user.is_staff %}
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
+    <a href="{% url 'Teacher Results View' %}">Student Results</a>
+    <a href="{% url 'upload video' %}">Upload Videos</a>
+    <a href="{% url 'Teacher Profile View' %}">Edit Profile</a>
+    {% else %}
+    <a href="{% url 'home page' %}">Welcome {{ user }}</a>
+    <a href="{% url 'test questions' %}">Quick test</a>
+    <a href="{% url 'Student Results View' %}">Check Results</a>
+    <a href="{% url 'student videos' %}">Tutorials for Test</a>
+    <a href="{% url 'Student Profile View' %}">Edit Profile</a>
+    {% endif %}
+    {% endif %}
     <a href="{% url 'Contact Us' %}" style="float:right;">Contact Us</a>
 </div>
 <center>
-    <form  autocomplete="off"  method="POST">
-     {% csrf_token %}
+    <form autocomplete="off" method="POST">
+        {% csrf_token %}
         <br> <br> <br> <br>
-       <h2>About Us Page</h2>
+        <h2>About Us Page</h2>
     </form>
 </center>
 </body>
