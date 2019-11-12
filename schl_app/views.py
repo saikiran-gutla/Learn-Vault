@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 import json
 import random
 from datetime import date
@@ -18,11 +19,31 @@ from schl_app.models import StudentDetails, \
     TestData, Video
 from schl_app.questions import questions_list
 from .forms import VideoForm
-from django.conf import settings
 
 
 def home_page(request):
     return render(request, 'index.html', {})
+
+
+@login_required
+def Student_Profile(request):
+    if request.method == 'GET':
+        details = {}
+        details_list = []
+        profile = StudentDetails.objects.get(student_name__username=request.user)
+        details = {
+            'Name': profile.student_name.username,
+            'Id': profile.student_id,
+            'Gender': profile.gender,
+            'Mobile_No': profile.mobile_no,
+            'Email_Id': profile.mail_id,
+            'DOB': str(profile.student_DOB),
+            'Standard': profile.standard,
+            'Father_Name': profile.stu_father_name
+        }
+
+        details_list.append(details)
+        return render(request, 'student_profile.html', {'profiles': details_list})
 
 
 @csrf_protect
@@ -61,6 +82,11 @@ def student_register(request):
     except:
         return render(request, 'index.html',
                       messages.success(request, "Entered Email Already Exist..Try with another Email"))
+
+
+@login_required
+def student_videos(request):
+    return render(request, 'student_videos.html', {})
 
 
 @csrf_protect
@@ -159,11 +185,6 @@ def gen_rand_id():
     stud_id += gen_id()
     tech_id += gen_id()
     return stud_id, tech_id
-
-
-@login_required
-def student_videos(request):
-    return render(request, 'student_videos.html', {})
 
 
 @login_required
@@ -290,27 +311,6 @@ def TeacherResultsView(request):
                     "No_Data": "No Results Found"
                 })
         return render(request, 'teacher_results_view.html', {'result': results_list})
-
-
-@login_required
-def Student_Profile(request):
-    if request.method == 'GET':
-        details = {}
-        details_list = []
-        profile = StudentDetails.objects.get(student_name__username=request.user)
-        details = {
-            'Name': profile.student_name.username,
-            'Id': profile.student_id,
-            'Gender': profile.gender,
-            'Mobile_No': profile.mobile_no,
-            'Email_Id': profile.mail_id,
-            'DOB': str(profile.student_DOB),
-            'Standard': profile.standard,
-            'Father_Name': profile.stu_father_name
-        }
-
-        details_list.append(details)
-        return render(request, 'student_profile.html', {'profiles': details_list})
 
 
 @login_required
