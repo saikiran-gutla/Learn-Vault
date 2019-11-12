@@ -12,15 +12,14 @@ from schl_app.views import student_register, \
     Student_Profile, \
     Teacher_Profile, contact_us, \
     student_profile_update, \
-    teacher_profile_update, student_results, Teac_contact, Logout, post_video, get_videos
+    teacher_profile_update, student_results, Logout, post_video, get_videos,about_us
 
 urlpatterns = [
     url(r'^stu_register/', student_register, name='student register'),
     url(r'^teacher_register/', teacher_register, name='teacher register'),
     url(r'^home_page/', student_home, name='home page'),
-    url(r'^student_login/', student_login_view, name='student login'),
-    # url(r'^teacher_home/', teacher_home, name='teacher home'),
-    url(r'^teacher_login/', teacher_login_view, name='teacher login'),
+    # url(r'^student_login/', student_login_view, name='student login'),
+    # url(r'^teacher_login/', teacher_login_view, name='teacher login'),
     url(r'^test/', test_questions, name='test questions'),
     url(r'^index_page/', home_page, name='index page'),
     url(r'^student_videos/', student_videos, name='student videos'),
@@ -31,6 +30,7 @@ urlpatterns = [
     url(r'^student_profile/', Student_Profile, name='Student Profile View'),
     url(r'^teacher_profile/', Teacher_Profile, name='Teacher Profile View'),
     url(r'^contact_us/', contact_us, name='Contact Us'),
+    url(r'^about_us/', about_us, name='About Us'),
     url(r'^stu_profile_update/', student_profile_update, name='student profile update'),
     url(r'^teacher_profile_update/', teacher_profile_update, name='teacher profile update'),
     url(r'^upload_video/', post_video, name='upload video'),

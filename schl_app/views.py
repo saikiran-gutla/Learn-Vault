@@ -383,10 +383,6 @@ def teacher_profile_update(request):
     return render(request, 'teacher_profile.html', {'teacher': model_to_dict(teacher)})
 
 
-def Teac_contact(request):
-    return render(request, 'tcontact.html', {})
-
-
 def Logout(request):
     logout(request)
     return redirect('/')
@@ -417,3 +413,6 @@ def get_videos(request):
             video_url.append(videos.videofile)
             print(video_url)
         return render(request, 'student_videos.html', {'urls': video_url})
+
+def about_us(request):
+    return render(request, 'about_us.html', {})

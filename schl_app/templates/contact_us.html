@@ -61,13 +61,14 @@
     <a href="{% url 'Teacher Profile View' %}">Edit Profile</a>
     {% else %}
     <a href="{% url 'home page' %}">Welcome {{ user }}</a>
+    <a href="{% url 'test questions' %}">Quick test</a>
     <a href="{% url 'Student Results View' %}">Check Results</a>
     <a href="{% url 'student videos' %}">Tutorials for Test</a>
     <a href="{% url 'Student Profile View' %}">Edit Profile</a>
     <a class="active" href="{% url 'Logout' %}">Signout</a>
     {% endif %}
     {% endif %}
-    <a href="#" style="float:right;">About Us</a>
+    <a href="{% url 'About Us' %}" style="float:right;">About Us</a>
 </div>
 <center>
     <form autocomplete="off" method="POST">
