@@ -118,7 +118,7 @@ def student_home(request):
             return render(request, 'home_page.html', {'user': user_name})
         else:
             messages.error(request, 'Invalid Login Credentials')
-            return redirect('home page')
+            return redirect('index page')
     else:
         user_name = request.user
         return render(request, 'home_page.html', {'user': user_name})
